@@ -2,10 +2,10 @@
 
 Ansible playbook to setup my Mac and soon Ubuntu machines
 
-##Setup
+## Setup
 
 -
 
-##What will be installed?
+## What will be installed?
 
 -
