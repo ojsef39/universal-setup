@@ -1,0 +1,13 @@
+---
+- name: Echo Play
+  hosts: localhost
+  tasks:
+    - name: Echo Hello Task
+      ansible.builtin.command:
+        cmd: echo "Hello"
+      register: result
+      changed_when: false
+
+    - name: Debug Task
+      ansible.builtin.debug:
+        var: result.stdout_lines
