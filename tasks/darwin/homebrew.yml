@@ -2,10 +2,10 @@
 - name: Check if Homebrew is installed
   command: which brew
   register: homebrew_check
-  ignore_errors: yes
+  ignore_errors: true
   changed_when: false
 
-##TODO: NOt working
+# TODO: NOt working
 - name: Install Homebrew
   shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   args:
