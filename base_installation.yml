@@ -8,27 +8,27 @@
 
   tasks:
     - name: Check if OS is supported
-      assert:
+      ansible.builtin.assert:
         that: ansible_facts['os_family'] in supported_os
         fail_msg: "Unsupported OS: {{ ansible_facts['os_family'] }}"
 
     - name: Include OS-specific vars
-      include_vars: "{{ item }}"
+      ansible.builtin.include_vars: "{{ item }}"
       with_fileglob:
         - "vars/{{ ansible_facts['os_family'] | lower }}/*.yml"
 
     - name: Include common vars
-      include_vars: "{{ item }}"
+      ansible.builtin.include_vars: "{{ item }}"
       with_fileglob:
         - "vars/common/*.yml"
 
     - name: Include OS-specific tasks
-      include_tasks: "{{ item }}"
+      ansible.builtin.include_tasks: "{{ item }}"
       with_fileglob:
         - "tasks/{{ ansible_facts['os_family'] | lower }}/*.yml"
 
     - name: Include common tasks
-      include_tasks: "{{ item }}"
+      ansible.builtin.include_tasks: "{{ item }}"
       with_fileglob:
         - "tasks/common/*.yml"
 
