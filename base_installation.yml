@@ -1,13 +1,36 @@
 ---
-- name: Echo Play
+- name: Setup development environment
   hosts: localhost
-  tasks:
-    - name: Echo Hello Task
-      ansible.builtin.command:
-        cmd: echo "Hello"
-      register: result
-      changed_when: false
+  vars:
+    supported_os:
+      - Darwin # macOS
+      - Debian # Ubuntu, Debian
 
-    - name: Debug Task
-      ansible.builtin.debug:
-        var: result.stdout_lines
+  tasks:
+    - name: Check if OS is supported
+      assert:
+        that: ansible_facts['os_family'] in supported_os
+        fail_msg: "Unsupported OS: {{ ansible_facts['os_family'] }}"
+
+    - name: Include OS-specific vars
+      include_vars: "{{ item }}"
+      with_fileglob:
+        - "vars/{{ ansible_facts['os_family'] | lower }}/*.yml"
+
+    - name: Include common vars
+      include_vars: "{{ item }}"
+      with_fileglob:
+        - "vars/common/*.yml"
+
+    - name: Include OS-specific tasks
+      include_tasks: "{{ item }}"
+      with_fileglob:
+        - "tasks/{{ ansible_facts['os_family'] | lower }}/*.yml"
+
+    - name: Include common tasks
+      include_tasks: "{{ item }}"
+      with_fileglob:
+        - "tasks/common/*.yml"
+
+  # handlers:
+  #   - import_tasks: handlers/*.yml
