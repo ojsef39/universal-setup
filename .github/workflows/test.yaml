@@ -47,11 +47,10 @@ jobs:
       - name: Run Ansible Playbook
         run: |
           ansible-playbook base_installation.yml --syntax-check
-          ansible-playbook base_installation.yml --check -v
+          ansible-playbook base_installation.yml --check -vv
 
   integration-test:
     needs: test
-    environment: needs_approval
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
