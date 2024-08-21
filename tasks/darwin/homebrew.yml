@@ -21,7 +21,7 @@
   community.general.homebrew:
     name: "{{ nsfw_brew_packages }}"
     state: present
-  when: not nsfw_mode | bool
+  when: not nsfw_mode | default(false) | bool
 
 - name: Install SFW Brew casks
   community.general.homebrew:
@@ -32,4 +32,4 @@
   community.general.homebrew:
     name: "{{ nsfw_brew_casks }}"
     state: present
-  when: not sfw_mode | bool
+  when: not sfw_mode | default(false) | bool
