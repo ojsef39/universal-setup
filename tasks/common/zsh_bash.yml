@@ -2,16 +2,20 @@
 - name: Ensure lines are present in .zshrc
   ansible.builtin.lineinfile:
     path: ~/.zshrc
-    line: "{{ item }}"
+    line: "{{ zshrc_lines_item }}"
   loop: "{{ zshrc_lines }}"
+  loop_control:
+    loop_var: zshrc_lines_item
   become: true
   when: ansible_os_family == "Darwin"
 
 - name: Ensure lines are present in .bashrc
   ansible.builtin.lineinfile:
     path: ~/.bashrc
-    line: "{{ item }}"
+    line: "{{ bashrc_lines_item }}"
   loop: "{{ bashrc_lines }}"
+  loop_control:
+    loop_var: bashrc_lines_item
   become: true
   when: ansible_os_family == "Debian"
 
