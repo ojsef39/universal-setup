@@ -47,7 +47,7 @@ jobs:
       - name: Run Ansible Playbook
         run: |
           ansible-playbook base_installation.yml --syntax-check
-          ansible-playbook base_installation.yml --check -vv
+          ansible-playbook base_installation.yml --check -vvv
 
   integration-test:
     needs: test

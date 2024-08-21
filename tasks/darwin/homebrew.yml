@@ -14,22 +14,34 @@
 
 - name: Install SFW Brew packages
   community.general.homebrew:
-    name: "{{ sfw_brew_packages }}"
+    name: "{{ item }}"
     state: present
+  loop: "{{ sfw_brew_packages }}"
+  loop_control:
+    label: "Installing package: {{ item }}"
 
 - name: Install NSFW Brew packages
   community.general.homebrew:
-    name: "{{ nsfw_brew_packages }}"
+    name: "{{ item }}"
     state: present
+  loop: "{{ nsfw_brew_packages }}"
+  loop_control:
+    label: "Installing package: {{ item }}"
   when: nsfw_mode | bool
 
 - name: Install SFW Brew casks
   community.general.homebrew:
-    name: "{{ sfw_brew_casks }}"
+    name: "{{ item }}"
     state: present
+  loop: "{{ sfw_brew_casks }}"
+  loop_control:
+    label: "Installing package: {{ item }}"
 
 - name: Install NSFW Brew casks
   community.general.homebrew:
-    name: "{{ nsfw_brew_casks }}"
+    name: "{{ item }}"
     state: present
+  loop: "{{ nsfw_brew_casks }}"
+  loop_control:
+    label: "Installing package: {{ item }}"
   when: nsfw_mode | bool
