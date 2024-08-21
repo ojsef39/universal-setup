@@ -38,15 +38,15 @@
         - "tasks/common/*.yml"
 
     ## REMOVE BELOW
-    - name: Get contents of .bashrc or .zshrc
-      ansible.builtin.command: cat ~/.bashrc
+    - name: Get contents of .bashrc
+      ansible.builtin.command: cat "{{ ansible_env.HOME }}/.bashrc"
       register: bashrc_contents
       ignore_errors: true
       changed_when: false
       when: ansible_os_family == "Debian"
 
     - name: Get contents of .zshrc
-      ansible.builtin.command: cat ~/.zshrc
+      ansible.builtin.command: cat "{{ ansible_env.HOME }}/.zshrc"
       register: zshrc_contents
       ignore_errors: true
       changed_when: false

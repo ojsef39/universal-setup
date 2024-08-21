@@ -1,7 +1,7 @@
 ---
 - name: Ensure lines are present in .zshrc
   ansible.builtin.lineinfile:
-    path: ~/.zshrc
+    path: "{{ ansible_env.HOME }}/.zshrc"
     line: "{{ zshrc_lines_item }}"
   loop: "{{ zshrc_lines }}"
   loop_control:
@@ -11,7 +11,7 @@
 
 - name: Ensure lines are present in .bashrc
   ansible.builtin.lineinfile:
-    path: ~/.bashrc
+    path: "{{ ansible_env.HOME }}/.bashrc"
     line: "{{ bashrc_lines_item }}"
   loop: "{{ bashrc_lines }}"
   loop_control:
@@ -21,14 +21,14 @@
 
 - name: Ensure nvim n script is present in .zshrc
   ansible.builtin.blockinfile:
-    path: "~/.zshrc"
+    path: "{{ ansible_env.HOME }}/.zshrc"
     block: "{{ rc_nvim_block }}"
   become: true
   when: ansible_os_family == "Darwin"
 
 - name: Ensure nvim n script is present in .bashrc
   ansible.builtin.blockinfile:
-    path: "~/.bashrc"
+    path: "{{ ansible_env.HOME }}/.bashrc"
     block: "{{ rc_nvim_block }}"
   become: true
   when: ansible_os_family == "Debian"

@@ -6,8 +6,8 @@ Ansible playbook to setup my Mac and soon Ubuntu machines
 
 1. Install [brew](https://brew.sh/)
 2. `brew install python3 ansible`
-3. `ansible-playbook base_installation.yml`
-4. If not a work laptop set environment variable to `OJ39_ANSIBLE_INSTALL_NSFW=true` (default is false)
+3. `ansible-playbook base_installation.yml -K`
+4. If not a work laptop set environment variable to `export OJ39_ANSIBLE_INSTALL_NSFW=true` (default is false)
 
 ## What will be installed?
 
