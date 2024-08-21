@@ -1,17 +1,4 @@
 ---
-- name: Check if Homebrew is installed
-  ansible.builtin.command: which brew
-  register: homebrew_check
-  ignore_errors: true
-  changed_when: false
-
-# TODO: NOt working, remove this in favor of an install.sh which installs initial dependencies
-- name: Install Homebrew
-  ansible.builtin.shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  args:
-    creates: /usr/local/bin/brew
-  when: homebrew_check.rc != 0
-
 - name: Install SFW Brew packages
   community.general.homebrew:
     name: "{{ b_sfw_p_item }}"

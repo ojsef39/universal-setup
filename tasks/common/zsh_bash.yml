@@ -1,0 +1,30 @@
+---
+- name: Ensure lines are present in .zshrc
+  ansible.builtin.lineinfile:
+    path: ~/.zshrc
+    line: "{{ item }}"
+  loop: "{{ zshrc_lines }}"
+  become: true
+  when: ansible_os_family == "Darwin"
+
+- name: Ensure lines are present in .bashrc
+  ansible.builtin.lineinfile:
+    path: ~/.bashrc
+    line: "{{ item }}"
+  loop: "{{ bashrc_lines }}"
+  become: true
+  when: ansible_os_family == "Debian"
+
+- name: Ensure nvim n script is present in .zshrc
+  ansible.builtin.blockinfile:
+    path: "~/.zshrc"
+    block: "{{ rc_nvim_block }}"
+  become: true
+  when: ansible_os_family == "Darwin"
+
+- name: Ensure nvim n script is present in .bashrc
+  ansible.builtin.blockinfile:
+    path: "~/.bashrc"
+    block: "{{ rc_nvim_block }}"
+  become: true
+  when: ansible_os_family == "Debian"
