@@ -19,7 +19,7 @@
   loop: "{{ sfw_brew_packages }}"
   loop_control:
     loop_var: b_sfw_p_item
-    label: "Installing package: {{ b_sfw_p_item }}"
+    label: "{{ b_sfw_p_item }}"
 
 - name: Install NSFW Brew packages
   community.general.homebrew:
@@ -28,7 +28,7 @@
   loop: "{{ nsfw_brew_packages }}"
   loop_control:
     loop_var: b_nsfw_p_item
-    label: "Installing package: {{ b_nsfw_p_item }}"
+    label: "{{ b_nsfw_p_item }}"
   when: nsfw_mode | bool
 
 - name: Install SFW Brew casks
@@ -38,7 +38,7 @@
   loop: "{{ sfw_brew_casks }}"
   loop_control:
     loop_var: b_sfw_c_item
-    label: "Installing cask: {{ b_sfw_c_item }}"
+    label: "{{ b_sfw_c_item }}"
 
 - name: Install NSFW Brew casks
   community.general.homebrew:
@@ -47,5 +47,5 @@
   loop: "{{ nsfw_brew_casks }}"
   loop_control:
     loop_var: b_nsfw_c_item
-    label: "Installing cask: {{ b_nsfw_c_item }}"
+    label: "{{ b_nsfw_c_item }}"
   when: nsfw_mode | bool
