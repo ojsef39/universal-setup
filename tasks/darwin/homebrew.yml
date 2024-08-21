@@ -5,7 +5,7 @@
   ignore_errors: true
   changed_when: false
 
-# TODO: NOt working
+# TODO: NOt working, remove this in favor of an install.sh which installs initial dependencies
 - name: Install Homebrew
   ansible.builtin.shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   args:
@@ -15,4 +15,9 @@
 - name: Install Brew packages
   community.general.homebrew:
     name: "{{ brew_packages }}"
+    state: present
+
+- name: Install Brew casks
+  community.general.homebrew:
+    name: "{{ brew_casks }}"
     state: present

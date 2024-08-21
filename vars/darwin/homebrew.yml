@@ -1,5 +1,47 @@
 ---
 brew_packages:
+  - act
+  - btop
+  - ca-certificates
+  - coreutils
+  - fastfetch
+  # - docx2pdf
   - git
   - ripgrep
-  - fd
+  - gh
+  - ghq
+  - gitlab-ci-local
+  - go
+  - gomplate
+  - helm
+  - hwatch
+  - ipcalc
+  - lazygit
+  - ncdu
+  - neovim
+  - nmap
+  - openssl@3
+  - retry
+  - ripgrep
+  - spaceship
+  - speedtest-cli
+  - tmux
+  - tree
+  - tree-sitter
+  - unbound
+  - vault
+  - wget
+  - whois
+  - zoxide
+  - zsh-async
+
+brew_casks:
+  - 1password-cli
+  - brooklyn
+  - caffeine
+  - dockdoor
+  - imageoptim
+  - neovide
+  - shortcat
+  - stats
+  - whisky
