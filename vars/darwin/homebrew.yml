@@ -51,3 +51,5 @@ nsfw_brew_casks:
   - imageoptim
   - shortcat
   - whisky
+  - NotchNook # TODO: Move to SFW
+  - DockDoor # TODO: Move to SFW

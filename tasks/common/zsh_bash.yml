@@ -2,6 +2,7 @@
 - name: Ensure lines are present in .zshrc
   ansible.builtin.lineinfile:
     path: "{{ ansible_env.HOME }}/.zshrc"
+    regexp: "^{{ zshrc_lines_item.split('=')[0] }}="
     line: "{{ zshrc_lines_item }}"
   loop: "{{ zshrc_lines }}"
   loop_control:
@@ -12,6 +13,7 @@
 - name: Ensure lines are present in .bashrc
   ansible.builtin.lineinfile:
     path: "{{ ansible_env.HOME }}/.bashrc"
+    regexp: "^{{ bashrc_lines_item.split('=')[0] }}="
     line: "{{ bashrc_lines_item }}"
   loop: "{{ bashrc_lines }}"
   loop_control:
