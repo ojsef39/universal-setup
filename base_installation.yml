@@ -1,16 +1,21 @@
 ---
-- name: Setup development environment
+- name: Setup local environment
   hosts: localhost
   vars:
     supported_os:
       - Darwin # macOS
       - Debian # Ubuntu, Debian
+    nsfw_mode: "{{ lookup('env', 'OJ39_ANSIBLE_INSTALL_NSFW') | default(false) | bool }}"
 
   tasks:
     - name: Check if OS is supported
       ansible.builtin.assert:
         that: ansible_facts['os_family'] in supported_os
         fail_msg: "Unsupported OS: {{ ansible_facts['os_family'] }}"
+
+    - name: Output NSFW Mode
+      ansible.builtin.debug:
+        var: nsfw_mode
 
     - name: Include OS-specific vars
       ansible.builtin.include_vars: "{{ item }}"

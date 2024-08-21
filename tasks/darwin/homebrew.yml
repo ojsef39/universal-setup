@@ -12,12 +12,24 @@
     creates: /usr/local/bin/brew
   when: homebrew_check.rc != 0
 
-- name: Install Brew packages
+- name: Install SFW Brew packages
   community.general.homebrew:
-    name: "{{ brew_packages }}"
+    name: "{{ sfw_brew_packages }}"
     state: present
 
-- name: Install Brew casks
+- name: Install NSFW Brew packages
   community.general.homebrew:
-    name: "{{ brew_casks }}"
+    name: "{{ nsfw_brew_packages }}"
     state: present
+  when: not nsfw_mode | bool
+
+- name: Install SFW Brew casks
+  community.general.homebrew:
+    name: "{{ sfw_brew_casks }}"
+    state: present
+
+- name: Install NSFW Brew casks
+  community.general.homebrew:
+    name: "{{ nsfw_brew_casks }}"
+    state: present
+  when: not sfw_mode | bool

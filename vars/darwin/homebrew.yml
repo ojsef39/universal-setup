@@ -1,11 +1,10 @@
 ---
-brew_packages:
+sfw_brew_packages:
   - act
-  - btop
   - ca-certificates
   - coreutils
+  - btop
   - fastfetch
-  # - docx2pdf
   - git
   - ripgrep
   - gh
@@ -14,34 +13,41 @@ brew_packages:
   - go
   - gomplate
   - helm
-  - hwatch
+  - kubernetes-cli
   - ipcalc
   - lazygit
   - ncdu
   - neovim
   - nmap
   - openssl@3
-  - retry
   - ripgrep
   - spaceship
-  - speedtest-cli
   - tmux
   - tree
   - tree-sitter
-  - unbound
   - vault
   - wget
   - whois
   - zoxide
   - zsh-async
 
-brew_casks:
+nsfw_brew_packages:
+  # - docx2pdf
+  - hwatch
+  - retry
+  - speedtest-cli
+  - unbound
+
+sfw_brew_casks:
+  - iTerm2
   - 1password-cli
-  - brooklyn
   - caffeine
+  - neovide
+  - stats
+
+nsfw_brew_casks:
+  - brooklyn
   - dockdoor
   - imageoptim
-  - neovide
   - shortcat
-  - stats
   - whisky
