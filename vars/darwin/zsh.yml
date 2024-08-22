@@ -28,9 +28,7 @@ rc_block_zsh: |
 rc_block_zsh_omz: |
   export PATH=$HOME/bin:/usr/local/bin:$PATH
   export PATH=$PATH:/opt/homebrew/bin:~/go/bin
-  export ZSH="/Users/josefhofer/.oh-my-zsh"
-
-  TEST={{ ansible_user_id }}
+  export ZSH="/Users/{{ ansible_user_id }}/.oh-my-zsh"
 
   ZSH_THEME="spaceship"
 
