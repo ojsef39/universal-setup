@@ -47,6 +47,8 @@ jobs:
           pip install ansible
       - name: Run Ansible Playbook
         run: |
+          touch ~/.bashrc
+          touch ~/.zshrc
           ansible-playbook base_installation.yml --syntax-check
           ansible-playbook base_installation.yml --check
 
