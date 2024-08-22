@@ -48,6 +48,9 @@
         src: "{{ zsh_custom }}/themes/spaceship-prompt/spaceship.zsh-theme"
         dest: "{{ zsh_custom }}/themes/spaceship.zsh-theme"
         state: link
+      failed_when:
+        - not ansible_check_mode
+        - not is_ci
 
     - name: Remove .zshrc
       ansible.builtin.file:
@@ -81,6 +84,13 @@
       loop: "{{ zshrc_lines_nswf }}"
       loop_control:
         loop_var: zshrc_lines_nsfw_item
+      when: nsfw_mode | bool
+
+    - name: Add NSWF export to .zshrc
+      ansible.builtin.lineinfile:
+        path: "{{ ansible_env.HOME }}/.zshrc"
+        line: "export OJ39_ANSIBLE_INSTALL_NSFW=true"
+      when: nsfw_mode | bool
 
     - name: Add script block to .zshrc
       ansible.builtin.blockinfile:
