@@ -34,13 +34,15 @@
       ansible.builtin.blockinfile:
         path: "{{ ansible_env.HOME }}/.zshrc"
         block: "{{ rc_block }}"
+        marker: "# {mark} ANSIBLE MANAGED BLOCK - RC BLOCK"
       become: true
       when: ansible_os_family == "Darwin"
 
-    - name: Ensure source block present in .zshrc
+    - name: Ensure OS specific block present in .zshrc
       ansible.builtin.blockinfile:
         path: "{{ ansible_env.HOME }}/.zshrc"
-        block: "{{ rc_block_source_zsh }}"
+        block: "{{ rc_block_zsh }}"
+        marker: "# {mark} ANSIBLE MANAGED BLOCK - RC BLOCK ZSH"
       become: true
       when: ansible_os_family == "Darwin"
 

@@ -34,6 +34,7 @@
       ansible.builtin.blockinfile:
         path: "{{ ansible_env.HOME }}/.bashrc"
         block: "{{ rc_block }}"
+        marker: "# {mark} ANSIBLE MANAGED BLOCK - RC BLOCK"
       become: true
       when: ansible_os_family == "Debian"
 
