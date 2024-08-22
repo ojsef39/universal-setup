@@ -16,7 +16,14 @@ rc_block: |
   # Enable completion for the 'n' alias
   compdef _files n
 
-  ## gitlab-ci-local Bash completion
+  #compdef gitlab-ci-local
+  ###-begin-gitlab-ci-local-completions-###
+  #
+  # yargs command completion script
+  #
+  # Installation: /opt/homebrew/bin/gitlab-ci-local completion >> ~/.zshrc
+  #    or /opt/homebrew/bin/gitlab-ci-local completion >> ~/.zprofile on OSX.
+  #
   _gitlab-ci-local_yargs_completions()
   {
     local reply
@@ -27,3 +34,6 @@ rc_block: |
     _describe 'values' reply
   }
   compdef _gitlab-ci-local_yargs_completions gitlab-ci-local
+  export GCL_TIMESTAMPS=true # or --timestamps: show timestamps in logs
+  export GCL_MAX_JOB_NAME_PADDING=30 # or --maxJobNamePadding: limit padding around job name
+  ###-end-gitlab-ci-local-completions-###

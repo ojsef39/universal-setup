@@ -1,6 +1,18 @@
 ---
 zshrc_lines:
-  - "OJ39_ANSIBLE_ACTIVE=True"
+  - OJ39_ANSIBLE_ACTIVE=True
+  - alias ls='gls --hyperlink'
+  - fastfetch
+  - ZSH_THEME="spaceship"
+  - alias ls="eza --icons --git --header"
+  - bindkey -r "^j"
+  - eval "$(fzf --zsh)"
+  - eval "$(zoxide init --cmd cd zsh)"
+  - alias x="exit"
+
+zshrc_lines_nswf:
+  - export PATH=/Applications/MEGAcmd.app/Contents/MacOS:$PATH
+  - source /Applications/MEGAcmd.app/Contents/MacOS/megacmd_completion.sh
 
 remove_zshrc_lines:
   - OJ39_TESTV

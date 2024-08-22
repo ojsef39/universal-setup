@@ -19,6 +19,17 @@
       become: true
       when: ansible_os_family == "Darwin"
 
+    - name: Ensure NSWF lines are present in .zshrc
+      ansible.builtin.lineinfile:
+        path: "{{ ansible_env.HOME }}/.zshrc"
+        regexp: "^{{ zshrc_lines_nswf.split('=')[0] }}="
+        line: "{{ zshrc_lines_nsfw_item }}"
+      loop: "{{ zshrc_lines_nswf }}"
+      loop_control:
+        loop_var: zshrc_lines_nsfw_item
+      become: true
+      when: ansible_os_family == "Darwin" and not nsfw_mode
+
     - name: Ensure lines are absent in .zshrc
       ansible.builtin.lineinfile:
         path: "{{ ansible_env.HOME }}/.zshrc"
