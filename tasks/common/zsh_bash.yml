@@ -37,16 +37,53 @@
       become: true
       when: ansible_os_family == "Debian"
 
-    - name: Ensure nvim n script is present in .zshrc
+    - name: Ensure lines are absent in .zshrc
+      ansible.builtin.lineinfile:
+        path: "{{ ansible_env.HOME }}/.zshrc"
+        regexp: "^{{ remove_zshrc_lines_item.split('=')[0] }}="
+        state: absent
+      loop: "{{ remove_zshrc_lines }}"
+      loop_control:
+        loop_var: remove_zshrc_lines_item
+      become: true
+      when: ansible_os_family == "Darwin" and remove_zshrc_lines_item is defined
+
+    - name: Ensure lines are absent in .bashrc
+      ansible.builtin.lineinfile:
+        path: "{{ ansible_env.HOME }}/.bashrc"
+        regexp: "^{{ remove_bashrc_lines_item.split('=')[0] }}="
+        state: absent
+      loop: "{{ remove_bashrc_lines }}"
+      loop_control:
+        loop_var: remove_bashrc_lines_item
+      become: true
+      when: ansible_os_family == "Debian" and remove_bashrc_lines is defined
+
+    - name: Ensure block present in .zshrc
       ansible.builtin.blockinfile:
         path: "{{ ansible_env.HOME }}/.zshrc"
-        block: "{{ rc_nvim_block }}"
+        block: "{{ rc_block }}"
       become: true
       when: ansible_os_family == "Darwin"
 
-    - name: Ensure nvim n script is present in .bashrc
+    - name: Ensure block is present in .bashrc
       ansible.builtin.blockinfile:
         path: "{{ ansible_env.HOME }}/.bashrc"
-        block: "{{ rc_nvim_block }}"
+        block: "{{ rc_block }}"
       become: true
       when: ansible_os_family == "Debian"
+
+    ## CI DEBUG
+    - name: Show contents of .bashrc in CI
+      ansible.builtin.command: cat "{{ ansible_env.HOME }}/.bashrc"
+      register: bashrc_contents
+      ignore_errors: true
+      changed_when: false
+      when: ansible_os_family == "Debian" and is_ci | bool
+
+    - name: Show contents of .zshrc in CI
+      ansible.builtin.command: cat "{{ ansible_env.HOME }}/.zshrc"
+      register: zshrc_contents
+      ignore_errors: true
+      changed_when: false
+      when: ansible_os_family == "Darwin" and is_ci | bool

@@ -1,5 +1,5 @@
 ---
-rc_nvim_block: |
+rc_block: |
   n() {
       local session_name="$(basename "$PWD")"
       if [ -z "$TMUX" ]; then

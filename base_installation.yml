@@ -42,20 +42,5 @@
       with_fileglob:
         - "tasks/common/*.yml"
 
-    ## CI DEBUG
-    - name: Get contents of .bashrc
-      ansible.builtin.command: cat "{{ ansible_env.HOME }}/.bashrc"
-      register: bashrc_contents
-      ignore_errors: true
-      changed_when: false
-      when: ansible_os_family == "Debian" and is_ci | bool
-
-    - name: Get contents of .zshrc
-      ansible.builtin.command: cat "{{ ansible_env.HOME }}/.zshrc"
-      register: zshrc_contents
-      ignore_errors: true
-      changed_when: false
-      when: ansible_os_family == "Darwin" and is_ci | bool
-
   # handlers:
   #   - import_tasks: handlers/*.yml
