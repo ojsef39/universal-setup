@@ -50,7 +50,6 @@
         state: link
       failed_when:
         - not ansible_check_mode
-        - not is_ci
 
     - name: Remove .zshrc
       ansible.builtin.file:
