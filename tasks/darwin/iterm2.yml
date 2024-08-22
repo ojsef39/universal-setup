@@ -3,12 +3,12 @@
   vars:
     zsh_custom: "{{ lookup('env', 'ZSH_CUSTOM') }}"
   block:
-    - name: Copy font files
+    - name: Synchronize font files
       ansible.posix.synchronize:
         src: "files/common/fonts/"
         dest: "~/Library/Fonts/"
 
-    - name: Copy iTerm2 configuration
+    - name: Synchronize iTerm2 configuration
       ansible.posix.synchronize:
         src: "files/darwin/iterm2/com.googlecode.iterm2.plist"
         dest: "~/Library/Preferences/com.googlecode.iterm2.plist"
