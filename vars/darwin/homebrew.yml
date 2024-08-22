@@ -22,7 +22,6 @@ sfw_brew_packages:
   - nmap
   - openssl@3
   - ripgrep
-  - spaceship
   - tmux
   - tree
   - tree-sitter
@@ -41,6 +40,7 @@ nsfw_brew_packages:
 
 sfw_brew_casks:
   - iTerm2
+  - OrbStack
   - 1password-cli
   - caffeine
   - neovide

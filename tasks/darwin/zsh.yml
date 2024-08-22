@@ -1,26 +1,70 @@
 - name: Setup Zsh
   tags: zsh
+  vars:
+    zsh_custom: "{{ lookup('env', 'ZSH_CUSTOM') }}"
   block:
+    - name: Check if zsh_custom is set
+      ansible.builtin.assert:
+        that:
+          - zsh_custom is defined
+          - zsh_custom | length > 0
+        fail_msg: "ZSH_CUSTOM or zsh_custom is not defined use -e zsh_custom=$ZSH_CUSTOM"
+
+    - name: Install OMZ
+      ansible.builtin.shell:
+        cmd: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+      args:
+        executable: /bin/bash
+      register: install_omz
+      failed_when: "'folder already exists' not in install_omz.stdout"
+      changed_when: false
+
+    - name: Check if spaceship-prompt repository exists
+      ansible.builtin.stat:
+        path: "{{ zsh_custom }}/themes/spaceship-prompt"
+      register: repo
+
+    - name: Clone spaceship-prompt repository
+      ansible.builtin.git:
+        repo: "https://github.com/spaceship-prompt/spaceship-prompt.git"
+        dest: "{{ zsh_custom }}/themes/spaceship-prompt"
+        depth: 1
+      when: not repo.stat.exists
+
+    - name: Update spaceship-prompt repository
+      ansible.builtin.git:
+        repo: "https://github.com/spaceship-prompt/spaceship-prompt.git"
+        dest: "{{ zsh_custom }}/themes/spaceship-prompt"
+        update: true
+      when: repo.stat.exists
+
+    - name: Synchronize directories
+      ansible.posix.synchronize:
+        src: "files/darwin/"
+        dest: "{{ ansible_env.HOME }}/"
+
+    - name: Create symbolic link for spaceship theme
+      ansible.builtin.file:
+        src: "{{ zsh_custom }}/themes/spaceship-prompt/spaceship.zsh-theme"
+        dest: "{{ zsh_custom }}/themes/spaceship.zsh-theme"
+        state: link
+
     - name: Remove .zshrc
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/.zshrc"
         state: absent
-      when: ansible_os_family == "Darwin"
 
-    - name: Create .zshrc in home
+    - name: Create .zshrc
       ansible.legacy.file:
         path: "{{ ansible_env.HOME }}/.zshrc"
         state: touch
         mode: "0644"
-      when: ansible_os_family == "Darwin"
 
     - name: Add OMZ block to .zshrc
       ansible.builtin.blockinfile:
         path: "{{ ansible_env.HOME }}/.zshrc"
         block: "{{ rc_block_zsh_omz }}"
         marker: "# {mark} ANSIBLE MANAGED BLOCK - RC BLOCK ZSH OMZ"
-      become: true
-      when: ansible_os_family == "Darwin"
 
     - name: Add lines to .zshrc
       ansible.builtin.lineinfile:
@@ -29,8 +73,6 @@
       loop: "{{ zshrc_lines }}"
       loop_control:
         loop_var: zshrc_lines_item
-      become: true
-      when: ansible_os_family == "Darwin"
 
     - name: Add NSWF lines to .zshrc
       ansible.builtin.lineinfile:
@@ -39,24 +81,18 @@
       loop: "{{ zshrc_lines_nswf }}"
       loop_control:
         loop_var: zshrc_lines_nsfw_item
-      become: true
-      when: ansible_os_family == "Darwin" and not nsfw_mode
 
     - name: Add script block to .zshrc
       ansible.builtin.blockinfile:
         path: "{{ ansible_env.HOME }}/.zshrc"
         block: "{{ rc_block }}"
         marker: "# {mark} ANSIBLE MANAGED BLOCK - RC BLOCK"
-      become: true
-      when: ansible_os_family == "Darwin"
 
     - name: Add OS specific block to .zshrc
       ansible.builtin.blockinfile:
         path: "{{ ansible_env.HOME }}/.zshrc"
         block: "{{ rc_block_zsh }}"
         marker: "# {mark} ANSIBLE MANAGED BLOCK - RC BLOCK ZSH"
-      become: true
-      when: ansible_os_family == "Darwin"
 
     ## CI DEBUG
     - name: Show contents of .zshrc in CI
@@ -64,4 +100,4 @@
       register: zshrc_contents
       ignore_errors: true
       changed_when: false
-      when: ansible_os_family == "Darwin" and is_ci | bool
+      when: is_ci | bool

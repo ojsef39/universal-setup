@@ -25,6 +25,12 @@ rc_block_zsh: |
     done
   fi
 
+  # Added by OrbStack: command-line tools and integration
+  # Comment this line if you don't want it to be added again.
+  source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+
 rc_block_zsh_omz: |
   export PATH=$HOME/bin:/usr/local/bin:$PATH
   export PATH=$PATH:/opt/homebrew/bin:~/go/bin
@@ -54,9 +60,8 @@ rc_block_zsh_omz: |
   # DEsactive git status
   SPACESHIP_GIT_STATUS_SHOW="false"
 
-  plugins=(git node npm github fzf-tab zsh-autosuggestions)
   source $ZSH/oh-my-zsh.sh
-
+  plugins=(git node npm github fzf-tab zsh-autosuggestions)
   test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
   # Set Spaceship ZSH as a prompt
