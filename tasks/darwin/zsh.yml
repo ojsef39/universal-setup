@@ -25,7 +25,6 @@
     - name: Add lines to .zshrc
       ansible.builtin.lineinfile:
         path: "{{ ansible_env.HOME }}/.zshrc"
-        regexp: "^{{ zshrc_lines_item.split('=')[0] }}="
         line: "{{ zshrc_lines_item }}"
       loop: "{{ zshrc_lines }}"
       loop_control:
@@ -36,7 +35,6 @@
     - name: Add NSWF lines to .zshrc
       ansible.builtin.lineinfile:
         path: "{{ ansible_env.HOME }}/.zshrc"
-        regexp: "^{{ zshrc_lines_nswf.split('=')[0] }}="
         line: "{{ zshrc_lines_nsfw_item }}"
       loop: "{{ zshrc_lines_nswf }}"
       loop_control:
