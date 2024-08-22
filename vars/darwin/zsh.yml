@@ -33,7 +33,6 @@ rc_block_zsh_omz: |
   ZSH_THEME="spaceship"
 
   # CONFIG SPACESHIP
-
   # Symbole avant les commandes
   SPACESHIP_CHAR_SYMBOL="🚀 "
   # Affichage du prefixe avant le repertoire courant
@@ -59,7 +58,6 @@ rc_block_zsh_omz: |
   source $ZSH/oh-my-zsh.sh
 
   test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
 
   # Set Spaceship ZSH as a prompt
   #autoload -U promptinit; promptinit

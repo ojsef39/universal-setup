@@ -1,7 +1,7 @@
 - name: Setup Zsh
   tags: zsh
   block:
-    - name: Remove .bashrc
+    - name: Remove .zshrc
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/.zshrc"
         state: absent
@@ -42,7 +42,7 @@
       become: true
       when: ansible_os_family == "Darwin" and not nsfw_mode
 
-    - name: Add block to .zshrc
+    - name: Add script block to .zshrc
       ansible.builtin.blockinfile:
         path: "{{ ansible_env.HOME }}/.zshrc"
         block: "{{ rc_block }}"

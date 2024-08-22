@@ -24,7 +24,7 @@
       become: true
       when: ansible_os_family == "Debian"
 
-    - name: Add block to .bashrc
+    - name: Add script block to .bashrc
       ansible.builtin.blockinfile:
         path: "{{ ansible_env.HOME }}/.bashrc"
         block: "{{ rc_block }}"
