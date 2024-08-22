@@ -1,21 +1,21 @@
 ---
 sfw_brew_packages:
   - act
+  - btop
   - ca-certificates
   - coreutils
-  - btop
+  - eza
   - fastfetch
-  - git
-  - ripgrep
   - fzf
   - gh
   - ghq
+  - git
   - gitlab-ci-local
   - go
   - gomplate
   - helm
-  - kubernetes-cli
   - ipcalc
+  - kubernetes-cli
   - lazygit
   - ncdu
   - neovim
