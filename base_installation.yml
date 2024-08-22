@@ -18,6 +18,10 @@
       ansible.builtin.debug:
         var: nsfw_mode
 
+    - name: Output CI Mode
+      ansible.builtin.debug:
+        var: is_ci
+
     - name: Include OS-specific vars
       ansible.builtin.include_vars: "{{ item }}"
       with_fileglob:
