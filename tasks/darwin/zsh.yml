@@ -18,6 +18,9 @@
       register: install_omz
       failed_when: "'folder already exists' not in install_omz.stdout"
       changed_when: false
+      when:
+        - not ansible_check_mode
+        - not is_ci
 
     - name: Check if spaceship-prompt repository exists
       ansible.builtin.stat:
