@@ -1,6 +1,7 @@
 ---
 zshrc_lines:
   - OJ39_ANSIBLE_ACTIVE=True
+  - autoload -Ux compinit && compinit
   - alias ls='gls --hyperlink'
   - fastfetch
   - ZSH_THEME="spaceship"
