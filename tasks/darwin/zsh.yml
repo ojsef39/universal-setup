@@ -1,3 +1,6 @@
+- name: Set ZSH_CUSTOM
+  ansible.builtin.lineinfile: "export ZSH_CUSTOM=$ZSH_CUSTO"
+
 - name: Setup Zsh
   tags: zsh
   vars:

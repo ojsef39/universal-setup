@@ -11,8 +11,8 @@ zshrc_lines:
   - alias x="exit"
 
 zshrc_lines_nswf:
-  - export PATH=/Applications/MEGAcmd.app/Contents/MacOS:$PATH
-  - source /Applications/MEGAcmd.app/Contents/MacOS/megacmd_completion.sh
+  - "#export PATH=/Applications/MEGAcmd.app/Contents/MacOS:$PATH"
+  - "#source /Applications/MEGAcmd.app/Contents/MacOS/megacmd_completion.sh"
 
 remove_zshrc_lines:
   - OJ39_TESTV
