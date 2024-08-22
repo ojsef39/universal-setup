@@ -1,18 +1,8 @@
-- name: Set ZSH_CUSTOM
-  ansible.builtin.lineinfile: "export ZSH_CUSTOM=$ZSH_CUSTO"
-
 - name: Setup Zsh
   tags: zsh
   vars:
-    zsh_custom: "{{ lookup('env', 'ZSH_CUSTOM') }}"
+    zsh_custom: "{{ lookup('env', 'ZSH_CUSTOM') | default('/Users/{{ ansible_env.HOME }}/.oh-my-zsh/custom') }}"
   block:
-    - name: Check if zsh_custom is set
-      ansible.builtin.assert:
-        that:
-          - zsh_custom is defined
-          - zsh_custom | length > 0
-        fail_msg: "ZSH_CUSTOM or zsh_custom is not defined use -e zsh_custom=$ZSH_CUSTOM"
-
     - name: Install OMZ
       ansible.builtin.shell:
         cmd: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"

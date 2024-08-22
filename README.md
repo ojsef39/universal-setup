@@ -11,7 +11,7 @@ Ansible playbook to setup my Mac and soon Ubuntu machines
 3. Clone this repo
 4. `ansible-galaxy collection install community.general`
 5. If not a work laptop set environment variable to `export OJ39_ANSIBLE_INSTALL_NSFW=true` (default is false)
-6. `ansible-playbook base_installation.yml -K -e zsh_custom=$ZSH_CUSTOM`
+6. `ansible-playbook base_installation.yml -K`
 
 ### One-liner setup
 
