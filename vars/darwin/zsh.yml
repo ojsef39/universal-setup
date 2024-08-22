@@ -35,7 +35,7 @@ rc_block_zsh_omz: |
   # CONFIG SPACESHIP
 
   # Symbole avant les commandes
-  SPACESHIP_CHAR_SYMBOL="🚀 " 
+  SPACESHIP_CHAR_SYMBOL="🚀 "
   # Affichage du prefixe avant le repertoire courant
   SPACESHIP_PROMPT_FIRST_PREFIX_SHOW=true
   # Icone avant le repertoire courant
