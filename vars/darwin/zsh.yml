@@ -4,6 +4,7 @@ zshrc_lines:
   - autoload -Uz compinit && compinit
   - alias ls='gls --hyperlink'
   - fastfetch
+  - tmux list-sessions
   - alias ls="eza --icons --git --header"
   - bindkey -r "^j"
   - eval "$(fzf --zsh)"
