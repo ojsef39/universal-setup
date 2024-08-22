@@ -1,14 +1,20 @@
 - name: Setup Bash
   tags: bash
   block:
-    - name: Create .bashrc in home for Debian
+    - name: Remove .bashrc
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.bashrc"
+        state: absent
+      when: ansible_os_family == "Debian"
+
+    - name: Create .bashrc
       ansible.legacy.file:
         path: "{{ ansible_env.HOME }}/.bashrc"
         state: touch
         mode: "0644"
-      when: ansible_os_family == "Debian" and is_ci | bool
+      when: ansible_os_family == "Debian"
 
-    - name: Ensure lines are present in .bashrc
+    - name: Add lines to .bashrc
       ansible.builtin.lineinfile:
         path: "{{ ansible_env.HOME }}/.bashrc"
         regexp: "^{{ bashrc_lines_item.split('=')[0] }}="
@@ -19,18 +25,7 @@
       become: true
       when: ansible_os_family == "Debian"
 
-    - name: Ensure lines are absent in .bashrc
-      ansible.builtin.lineinfile:
-        path: "{{ ansible_env.HOME }}/.bashrc"
-        regexp: "^{{ remove_bashrc_lines_item.split('=')[0] }}="
-        state: absent
-      loop: "{{ remove_bashrc_lines }}"
-      loop_control:
-        loop_var: remove_bashrc_lines_item
-      become: true
-      when: ansible_os_family == "Debian" and remove_bashrc_lines is defined
-
-    - name: Ensure block is present in .bashrc
+    - name: Add block to .bashrc
       ansible.builtin.blockinfile:
         path: "{{ ansible_env.HOME }}/.bashrc"
         block: "{{ rc_block }}"
