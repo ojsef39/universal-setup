@@ -1,0 +1,46 @@
+- name: Setup Bash
+  tags: bash
+  block:
+    - name: Create .bashrc in home for Debian
+      ansible.legacy.file:
+        path: "{{ ansible_env.HOME }}/.bashrc"
+        state: touch
+        mode: "0644"
+      when: ansible_os_family == "Debian" and is_ci | bool
+
+    - name: Ensure lines are present in .bashrc
+      ansible.builtin.lineinfile:
+        path: "{{ ansible_env.HOME }}/.bashrc"
+        regexp: "^{{ bashrc_lines_item.split('=')[0] }}="
+        line: "{{ bashrc_lines_item }}"
+      loop: "{{ bashrc_lines }}"
+      loop_control:
+        loop_var: bashrc_lines_item
+      become: true
+      when: ansible_os_family == "Debian"
+
+    - name: Ensure lines are absent in .bashrc
+      ansible.builtin.lineinfile:
+        path: "{{ ansible_env.HOME }}/.bashrc"
+        regexp: "^{{ remove_bashrc_lines_item.split('=')[0] }}="
+        state: absent
+      loop: "{{ remove_bashrc_lines }}"
+      loop_control:
+        loop_var: remove_bashrc_lines_item
+      become: true
+      when: ansible_os_family == "Debian" and remove_bashrc_lines is defined
+
+    - name: Ensure block is present in .bashrc
+      ansible.builtin.blockinfile:
+        path: "{{ ansible_env.HOME }}/.bashrc"
+        block: "{{ rc_block }}"
+      become: true
+      when: ansible_os_family == "Debian"
+
+    ## CI DEBUG
+    - name: Show contents of .bashrc in CI
+      ansible.builtin.command: cat "{{ ansible_env.HOME }}/.bashrc"
+      register: bashrc_contents
+      ignore_errors: true
+      changed_when: false
+      when: ansible_os_family == "Debian" and is_ci | bool

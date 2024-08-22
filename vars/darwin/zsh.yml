@@ -1,0 +1,14 @@
+---
+zshrc_lines:
+  - "OJ39_ANSIBLE_ACTIVE=True"
+
+remove_zshrc_lines:
+  - OJ39_TESTV
+
+rc_block_source_zsh: |
+  # Source all .zsh files in the ~/.zsh_scripts directory
+  if [ -d $HOME/.zsh_scripts ]; then
+    for file in $HOME/.zsh_scripts/*.zsh; do
+      source $file
+    done
+  fi

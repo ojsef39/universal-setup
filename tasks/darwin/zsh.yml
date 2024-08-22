@@ -1,13 +1,6 @@
-- name: Setup Bash and Zsh
-  tags: zsh_bash
+- name: Setup Zsh
+  tags: zsh
   block:
-    - name: Create .bashrc in home for Debian
-      ansible.legacy.file:
-        path: "{{ ansible_env.HOME }}/.bashrc"
-        state: touch
-        mode: "0644"
-      when: ansible_os_family == "Debian" and is_ci | bool
-
     - name: Create .zshrc in home for Darwin
       ansible.legacy.file:
         path: "{{ ansible_env.HOME }}/.zshrc"
@@ -26,17 +19,6 @@
       become: true
       when: ansible_os_family == "Darwin"
 
-    - name: Ensure lines are present in .bashrc
-      ansible.builtin.lineinfile:
-        path: "{{ ansible_env.HOME }}/.bashrc"
-        regexp: "^{{ bashrc_lines_item.split('=')[0] }}="
-        line: "{{ bashrc_lines_item }}"
-      loop: "{{ bashrc_lines }}"
-      loop_control:
-        loop_var: bashrc_lines_item
-      become: true
-      when: ansible_os_family == "Debian"
-
     - name: Ensure lines are absent in .zshrc
       ansible.builtin.lineinfile:
         path: "{{ ansible_env.HOME }}/.zshrc"
@@ -48,17 +30,6 @@
       become: true
       when: ansible_os_family == "Darwin" and remove_zshrc_lines_item is defined
 
-    - name: Ensure lines are absent in .bashrc
-      ansible.builtin.lineinfile:
-        path: "{{ ansible_env.HOME }}/.bashrc"
-        regexp: "^{{ remove_bashrc_lines_item.split('=')[0] }}="
-        state: absent
-      loop: "{{ remove_bashrc_lines }}"
-      loop_control:
-        loop_var: remove_bashrc_lines_item
-      become: true
-      when: ansible_os_family == "Debian" and remove_bashrc_lines is defined
-
     - name: Ensure block present in .zshrc
       ansible.builtin.blockinfile:
         path: "{{ ansible_env.HOME }}/.zshrc"
@@ -66,21 +37,14 @@
       become: true
       when: ansible_os_family == "Darwin"
 
-    - name: Ensure block is present in .bashrc
+    - name: Ensure source block present in .zshrc
       ansible.builtin.blockinfile:
-        path: "{{ ansible_env.HOME }}/.bashrc"
-        block: "{{ rc_block }}"
+        path: "{{ ansible_env.HOME }}/.zshrc"
+        block: "{{ rc_block_source_zsh }}"
       become: true
-      when: ansible_os_family == "Debian"
+      when: ansible_os_family == "Darwin"
 
     ## CI DEBUG
-    - name: Show contents of .bashrc in CI
-      ansible.builtin.command: cat "{{ ansible_env.HOME }}/.bashrc"
-      register: bashrc_contents
-      ignore_errors: true
-      changed_when: false
-      when: ansible_os_family == "Debian" and is_ci | bool
-
     - name: Show contents of .zshrc in CI
       ansible.builtin.command: cat "{{ ansible_env.HOME }}/.zshrc"
       register: zshrc_contents

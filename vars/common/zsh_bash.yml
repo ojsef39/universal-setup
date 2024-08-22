@@ -1,5 +1,6 @@
 ---
 rc_block: |
+  ## NVIM TMUX Script
   n() {
       local session_name="$(basename "$PWD")"
       if [ -z "$TMUX" ]; then
@@ -14,3 +15,15 @@ rc_block: |
   }
   # Enable completion for the 'n' alias
   compdef _files n
+
+  ## gitlab-ci-local Bash completion
+  _gitlab-ci-local_yargs_completions()
+  {
+    local reply
+    local si=$IFS
+    IFS=$'
+  ' reply=($(COMP_CWORD="$((CURRENT-1))" COMP_LINE="$BUFFER" COMP_POINT="$CURSOR" /opt/homebrew/bin/gitlab-ci-local --get-yargs-completions "${words[@]}"))
+    IFS=$si
+    _describe 'values' reply
+  }
+  compdef _gitlab-ci-local_yargs_completions gitlab-ci-local
