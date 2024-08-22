@@ -1,4 +1,18 @@
 ---
+- name: Create .bashrc in home for Debian
+  ansible.legacy.file:
+    path: "{{ ansible_env.HOME }}/.bashrc"
+    state: touch
+    mode: "0644"
+  when: ansible_os_family == "Debian" and is_ci | bool
+
+- name: Create .zshrc in home for Darwin
+  ansible.legacy.file:
+    path: "{{ ansible_env.HOME }}/.zshrc"
+    state: touch
+    mode: "0644"
+  when: ansible_os_family == "Darwin" and is_ci | bool
+
 - name: Ensure lines are present in .zshrc
   ansible.builtin.lineinfile:
     path: "{{ ansible_env.HOME }}/.zshrc"
