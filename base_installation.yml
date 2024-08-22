@@ -6,6 +6,7 @@
       - Darwin # macOS
       - Debian # Ubuntu, Debian
     nsfw_mode: "{{ lookup('env', 'OJ39_ANSIBLE_INSTALL_NSFW') | default(false) | bool }}"
+    is_ci: "{{ lookup('env', 'OJ39_ANSIBLE_IS_CI') | default(false) | bool }}"
 
   tasks:
     - name: Check if OS is supported
@@ -37,30 +38,20 @@
       with_fileglob:
         - "tasks/common/*.yml"
 
-    ## REMOVE BELOW
+    ## CI DEBUG
     - name: Get contents of .bashrc
       ansible.builtin.command: cat "{{ ansible_env.HOME }}/.bashrc"
       register: bashrc_contents
       ignore_errors: true
       changed_when: false
-      when: ansible_os_family == "Debian"
+      when: ansible_os_family == "Debian" and is_ci | bool
 
     - name: Get contents of .zshrc
       ansible.builtin.command: cat "{{ ansible_env.HOME }}/.zshrc"
       register: zshrc_contents
       ignore_errors: true
       changed_when: false
-      when: ansible_os_family == "Darwin"
-
-    - name: Debug .bashrc contents
-      ansible.builtin.debug:
-        var: bashrc_contents.stdout
-      when: bashrc_contents.stdout is defined
-
-    - name: Debug .zshrc contents
-      ansible.builtin.debug:
-        var: zshrc_contents.stdout
-      when: zshrc_contents.stdout is defined
+      when: ansible_os_family == "Darwin" and is_ci | bool
 
   # handlers:
   #   - import_tasks: handlers/*.yml

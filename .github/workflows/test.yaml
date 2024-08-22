@@ -1,4 +1,4 @@
-name: Ansible Playbook CI Test
+name: Base Installation Test
 on:
   push:
     branches: [main]
@@ -34,6 +34,7 @@ jobs:
         nsfw: [true, false]
     env:
       OJ39_ANSIBLE_INSTALL_NSFW: ${{ matrix.nsfw }}
+      OJ39_ANSIBLE_IS_CI: true
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
@@ -58,6 +59,7 @@ jobs:
         nsfw: [true, false]
     env:
       OJ39_ANSIBLE_INSTALL_NSFW: ${{ matrix.nsfw }}
+      OJ39_ANSIBLE_IS_CI: true
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
@@ -70,4 +72,5 @@ jobs:
           pip install ansible
       - name: Run Ansible Playbook
         run: |
+          ansible-galaxy collection install community.general
           ansible-playbook base_installation.yml
