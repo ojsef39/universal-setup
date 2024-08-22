@@ -38,11 +38,6 @@
         update: true
       when: repo.stat.exists
 
-    - name: Synchronize directories
-      ansible.posix.synchronize:
-        src: "files/darwin/"
-        dest: "{{ ansible_env.HOME }}/"
-
     - name: Create symbolic link for spaceship theme
       ansible.builtin.file:
         src: "{{ zsh_custom }}/themes/spaceship-prompt/spaceship.zsh-theme"
@@ -50,6 +45,12 @@
         state: link
       failed_when:
         - not ansible_check_mode
+        - not is_ci
+
+    - name: Synchronize directories
+      ansible.posix.synchronize:
+        src: "files/darwin/"
+        dest: "{{ ansible_env.HOME }}/"
 
     - name: Remove .zshrc
       ansible.builtin.file:
