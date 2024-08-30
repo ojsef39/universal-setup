@@ -18,6 +18,7 @@
   ansible.builtin.apt:
     name: "{{ apt_sfw_p_item }}"
     state: present
+  become: true
   loop: "{{ sfw_apt_packages }}"
   loop_control:
     loop_var: apt_sfw_p_item
@@ -30,6 +31,7 @@
   ansible.builtin.apt:
     name: "{{ apt_nsfw_p_item }}"
     state: present
+  become: true
   loop: "{{ nsfw_apt_packages }}"
   loop_control:
     loop_var: apt_nsfw_p_item

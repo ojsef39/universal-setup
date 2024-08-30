@@ -13,7 +13,7 @@ Ansible playbook to setup my Mac and soon Ubuntu machines
 5. If not a work laptop set environment variable to `export OJ39_ANSIBLE_INSTALL_NSFW=true` (default is false)
 6. `ansible-playbook base_installation.yml -K`
 
-### One-liner setup
+### One-line setup
 
 Coming soon…
 
