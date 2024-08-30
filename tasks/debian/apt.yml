@@ -1,42 +1,39 @@
 - name: Apt Packages
   tags: apt_packages
+  become: yes
   block:
     - name: Update apt cache
       ansible.builtin.apt:
         update_cache: true
-      become: true
 
     - name: Upgrade Packages
       ansible.builtin.apt:
         upgrade: full
-      become: true
       register: apt_action
       retries: 100
       until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
 
-- name: Install SFW apt packages
-  ansible.builtin.apt:
-    name: "{{ apt_sfw_p_item }}"
-    state: present
-  become: true
-  loop: "{{ sfw_apt_packages }}"
-  loop_control:
-    loop_var: apt_sfw_p_item
-    label: "{{ apt_sfw_p_item }}"
-  failed_when:
-    - not ansible_check_mode
-    - not is_ci
+    - name: Install SFW apt packages
+      ansible.builtin.apt:
+        name: "{{ apt_sfw_p_item }}"
+        state: present
+      loop: "{{ sfw_apt_packages }}"
+      loop_control:
+        loop_var: apt_sfw_p_item
+        label: "{{ apt_sfw_p_item }}"
+      failed_when:
+        - not ansible_check_mode
+        - not is_ci
 
-- name: Install NSFW apt packages
-  ansible.builtin.apt:
-    name: "{{ apt_nsfw_p_item }}"
-    state: present
-  become: true
-  loop: "{{ nsfw_apt_packages }}"
-  loop_control:
-    loop_var: apt_nsfw_p_item
-    label: "{{ apt_nsfw_p_item }}"
-  when: nsfw_mode | bool
-  failed_when:
-    - not ansible_check_mode
-    - not is_ci
+    - name: Install NSFW apt packages
+      ansible.builtin.apt:
+        name: "{{ apt_nsfw_p_item }}"
+        state: present
+      loop: "{{ nsfw_apt_packages }}"
+      loop_control:
+        loop_var: apt_nsfw_p_item
+        label: "{{ apt_nsfw_p_item }}"
+      when: nsfw_mode | bool
+      failed_when:
+        - not ansible_check_mode
+        - not is_ci

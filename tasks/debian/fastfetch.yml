@@ -1,7 +1,8 @@
 ---
 - name: Install Fastfetch
+  tags: build_fastfetch
   become: yes
-  tasks:
+  block:
     - name: Install required packages
       apt:
         name:
