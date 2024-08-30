@@ -1,4 +1,5 @@
 sfw_apt_packages:
+  - apt-utils
   - neovim
 
 nsfw_apt_packages:

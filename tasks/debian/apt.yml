@@ -5,6 +5,7 @@
     - name: (Apt) Update apt cache
       ansible.builtin.apt:
         update_cache: true
+      check_mode: false
 
     - name: (Apt) Upgrade Packages
       ansible.builtin.apt:
@@ -21,9 +22,6 @@
       loop_control:
         loop_var: apt_sfw_p_item
         label: "{{ apt_sfw_p_item }}"
-      failed_when:
-        - not ansible_check_mode
-        - not is_ci
 
     - name: (Apt) Install NSFW apt packages
       ansible.builtin.apt:
@@ -34,6 +32,3 @@
         loop_var: apt_nsfw_p_item
         label: "{{ apt_nsfw_p_item }}"
       when: nsfw_mode | bool
-      failed_when:
-        - not ansible_check_mode
-        - not is_ci
