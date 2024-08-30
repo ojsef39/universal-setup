@@ -50,7 +50,7 @@ jobs:
           touch ~/.bashrc
           touch ~/.zshrc
           ansible-playbook base_installation.yml --syntax-check
-          ansible-playbook base_installation.yml --check -vvv
+          ansible-playbook base_installation.yml --check
 
   integration-test:
     needs: test
