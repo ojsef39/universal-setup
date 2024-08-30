@@ -1,6 +1,5 @@
 sfw_apt_packages:
   - neovim
-  - fastfetch
 
 nsfw_apt_packages:
   -

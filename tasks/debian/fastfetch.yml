@@ -1,0 +1,46 @@
+---
+- name: Install Fastfetch
+  become: yes
+  tasks:
+    - name: Install required packages
+      apt:
+        name:
+          - build-essential
+          - pkg-config
+          - meson
+          - gcc
+          - g++
+        state: present
+        update_cache: yes
+
+    - name: Clone Fastfetch repository
+      git:
+        repo: https://github.com/LinusDierheimer/Fastfetch.git
+        dest: /opt/Fastfetch
+        version: master
+
+    - name: Build Fastfetch
+      command: |
+        cd /opt/Fastfetch &&
+        meson build &&
+        ninja -C build install
+      args:
+        creates: /usr/local/bin/fastfetch
+
+    - name: Clean up Fastfetch source
+      file:
+        path: /opt/Fastfetch
+        state: absent
+        when: not fastfetch_installed.stat.exists
+
+    - name: Check if Fastfetch is installed
+      stat:
+        path: /usr/local/bin/fastfetch
+      register: fastfetch_installed
+
+    - name: Install Fastfetch if not present
+      command: |
+        cd /opt/Fastfetch &&
+        meson build &&
+        ninja -C build install
+      when: not fastfetch_installed.stat.exists
