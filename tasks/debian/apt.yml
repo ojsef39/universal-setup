@@ -9,12 +9,8 @@
 
     - name: (Apt - Prepare) Install required apt packages
       ansible.builtin.apt:
-        name: "{{ apt_req_p_item }}"
+        name: "{{ apt_required}}"
         state: present
-      loop: "{{ apt_required }}"
-      loop_control:
-        loop_var: apt_req_p_item
-        label: "{{ apt_req_p_item }}"
 
     - name: (Apt) Import legacy apt keys
       ansible.builtin.apt_key:
@@ -66,19 +62,18 @@
 
     - name: (Apt) Install SFW apt packages
       ansible.builtin.apt:
-        name: "{{ apt_sfw_p_item }}"
+        name: "{{ sfw_apt_packages}}"
         state: present
-      loop: "{{ sfw_apt_packages }}"
-      loop_control:
-        loop_var: apt_sfw_p_item
-        label: "{{ apt_sfw_p_item }}"
 
     - name: (Apt) Install NSFW apt packages
       ansible.builtin.apt:
-        name: "{{ apt_nsfw_p_item }}"
+        name: "{{ nsfw_apt_packages}}"
         state: present
-      loop: "{{ nsfw_apt_packages }}"
-      loop_control:
-        loop_var: apt_nsfw_p_item
-        label: "{{ apt_nsfw_p_item }}"
-      when: nsfw_mode | bool
+      when:
+        - nsfw_mode | bool
+        - nsfw_apt_packages not None
+
+    - name: (Apt) Cleanup
+      ansible.builtin.apt:
+        autoremove: true
+        autoclean: true
