@@ -1,7 +1,15 @@
 sfw_apt_packages:
   - apt-utils
   - software-properties-common
+  - fastfetch
   - neovim
 
 nsfw_apt_packages:
   -
+
+repos:
+  fastfetch:
+    in_keyring: true
+    key: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xEB65EE19D802F3EB1A13CFE47E2E5CB4D4865F21
+    name: fastfetch
+    repository: deb http://ppa.launchpad.net/zhangsongcui3371/fastfetch/ubuntu {{ ansible_distribution_release }}  main

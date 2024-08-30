@@ -2,6 +2,42 @@
   tags: apt_packages
   become: true
   block:
+    - name: (Apt) Import legacy apt keys
+      ansible.builtin.apt_key:
+        url: "{{ legacy_apt_key.value.key }}"
+      with_dict: "{{ repos }}"
+      loop_control:
+        loop_var: legacy_apt_key
+        label: "{{ legacy_apt_key }}"
+      when: legacy_apt_key.value.in_keyring
+      check_mode: false
+
+    - name: (Apt) Import apt keys
+      ansible.builtin.get_url:
+        url: "{{ apt_key.value.key }}"
+        dest: "/etc/apt/trusted.gpg.d/{{ apt_key.value.key | basename }}"
+        mode: "0644"
+        force: true
+      with_dict: "{{ repos }}"
+      loop_control:
+        loop_var: apt_key
+        label: "{{ apt_key }}"
+      when:
+        - not apt_key.value.in_keyring
+      check_mode: false
+
+    - name: (Apt) Add apt repos
+      ansible.builtin.apt_repository:
+        repo: "{{ apt_repo.value.repository }}"
+        filename: "{{ apt_repo.value.name }}"
+        update_cache: false
+      register: added_repos
+      with_dict: "{{ repos }}"
+      loop_control:
+        loop_var: apt_repo
+        label: "{{ apt_repo }}"
+      check_mode: false
+
     - name: (Apt) Update apt cache
       ansible.builtin.apt:
         update_cache: true
