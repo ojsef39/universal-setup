@@ -1,6 +1,12 @@
 ---
 rc_block: |
-  ## NVIM TMUX Script
+  autoload -Uz compinit && compinit
+  fastfetch
+  tmux list-sessions
+  alias x="exit"
+  bindkey -r "^j"
+
+  ## NVIM TMUX Scripts
   n() {
       local session_name="$(basename "$PWD")"
       if [ -z "$TMUX" ]; then
@@ -16,7 +22,19 @@ rc_block: |
   # Enable completion for the 'n' alias
   compdef _files n
 
-  #compdef gitlab-ci-local
+  t() {
+      local session_name="$(basename "$PWD")"
+      if [ -z "$TMUX" ]; then
+          if tmux has-session -t "$session_name" 2>/dev/null; then
+              tmux attach-session -t "$session_name"
+          else
+              tmux new-session -s "$session_name"
+          fi
+      else
+        echo "Already in a tmux session"
+      fi
+  }
+
   ###-begin-gitlab-ci-local-completions-###
   #
   # yargs command completion script

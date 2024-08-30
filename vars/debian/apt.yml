@@ -3,6 +3,8 @@ sfw_apt_packages:
   - software-properties-common
   - fastfetch
   - neovim
+  - fzf
+  - tmux
 
 nsfw_apt_packages:
   -
