@@ -1,38 +1,39 @@
 - name: Install Fastfetch
-  tags: install_fastfetch
+  tags: apt_fastfetch
   become: true
   block:
-    - name: (Fastfetch) Download Fastfetch GPG key
+    - name: (Apt - Fastfetch) Download Fastfetch GPG key
       ansible.builtin.get_url:
         url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xEB65EE19D802F3EB1A13CFE47E2E5CB4D4865F21
         dest: /tmp/fastfetch.gpg
-        owner: "{ { ansible_env.USER } }"
-        group: "{ { ansible_env.USER } }"
+        owner: "{{ ansible_env.USER }}"
+        group: "{{ ansible_env.USER }}"
         mode: "0644"
+      check_mode: false
 
-    - name: (Fastfetch) Add Fastfetch GPG key
+    - name: (Apt - Fastfetch) Add Fastfetch GPG key
       ansible.builtin.copy:
         src: /tmp/fastfetch.gpg
         dest: /etc/apt/trusted.gpg.d/fastfetch.gpg
-        owner: "{ { ansible_env.USER } }"
-        group: "{ { ansible_env.USER } }"
+        owner: "{{ ansible_env.USER }}"
+        group: "{{ ansible_env.USER }}"
         mode: "0644"
 
-    - name: (Fastfetch) Add Fastfetch PPA
+    - name: (Apt - Fastfetch) Add Fastfetch PPA
       ansible.builtin.apt_repository:
         repo: deb http://ppa.launchpad.net/zhangsongcui3371/fastfetch/ubuntu {{ ansible_distribution_release }} main
         state: present
 
-    - name: (Fastfetch) Update apt cache
+    - name: (Apt - Fastfetch) Update apt cache
       ansible.builtin.apt:
         update_cache: true
 
-    - name: (Fastfetch) Install Fastfetch
+    - name: (Apt - Fastfetch) Install Fastfetch
       ansible.builtin.apt:
         name: fastfetch
         state: present
 
-    - name: (Fastfetch) Cleanup temporary files
+    - name: (Apt - Fastfetch) Cleanup temporary files
       ansible.builtin.file:
         path: /tmp/fastfetch.gpg
         state: absent
