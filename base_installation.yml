@@ -42,5 +42,10 @@
       with_fileglob:
         - "tasks/common/*.yml"
 
+    - name: (Setup) Cleanup
+      ansible.builtin.file:
+        path: /tmp/oj39/
+        state: absent
+
   # handlers:
   #   - import_tasks: handlers/*.yml
