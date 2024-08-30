@@ -1,5 +1,6 @@
 sfw_apt_packages:
   - apt-utils
+  - software-properties-common
   - neovim
 
 nsfw_apt_packages:
