@@ -2,6 +2,20 @@
   tags: apt_packages
   become: true
   block:
+    - name: (Apt - Prepare) Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+      check_mode: false
+
+    - name: (Apt - Prepare) Install required apt packages
+      ansible.builtin.apt:
+        name: "{{ apt_req_p_item }}"
+        state: present
+      loop: "{{ apt_required }}"
+      loop_control:
+        loop_var: apt_req_p_item
+        label: "{{ apt_req_p_item }}"
+
     - name: (Apt) Import legacy apt keys
       ansible.builtin.apt_key:
         url: "{{ legacy_apt_key.value.key }}"
