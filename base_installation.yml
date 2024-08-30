@@ -9,35 +9,35 @@
     is_ci: "{{ lookup('env', 'OJ39_ANSIBLE_IS_CI') | default(false) | bool }}"
 
   tasks:
-    - name: Check if OS is supported
+    - name: (Setup) Check if OS is supported
       ansible.builtin.assert:
         that: ansible_facts['os_family'] in supported_os
         fail_msg: "Unsupported OS: {{ ansible_facts['os_family'] }}"
 
-    - name: Output NSFW Mode
+    - name: (Setup) Output NSFW Mode
       ansible.builtin.debug:
         var: nsfw_mode
 
-    - name: Output CI Mode
+    - name: (Setup) Output CI Mode
       ansible.builtin.debug:
         var: is_ci
 
-    - name: Include OS-specific vars
+    - name: (Setup) Include OS-specific vars
       ansible.builtin.include_vars: "{{ item }}"
       with_fileglob:
         - "vars/{{ ansible_facts['os_family'] | lower }}/*.yml"
 
-    - name: Include common vars
+    - name: (Setup) Include common vars
       ansible.builtin.include_vars: "{{ item }}"
       with_fileglob:
         - "vars/common/*.yml"
 
-    - name: Include OS-specific tasks
+    - name: (Setup) Include OS-specific tasks
       ansible.builtin.include_tasks: "{{ item }}"
       with_fileglob:
         - "tasks/{{ ansible_facts['os_family'] | lower }}/*.yml"
 
-    - name: Include common tasks
+    - name: (Setup) Include common tasks
       ansible.builtin.include_tasks: "{{ item }}"
       with_fileglob:
         - "tasks/common/*.yml"

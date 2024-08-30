@@ -1,47 +1,41 @@
 ---
 - name: Install Fastfetch
-  tags: build_fastfetch
-  become: yes
+  tags: install_fastfetch
+  become: true
   block:
-    - name: Install required packages
-      apt:
+    - name: (Fastfetch) Install required packages
+      ansible.builtin.apt:
         name:
-          - build-essential
           - pkg-config
-          - meson
+          - cmake
           - gcc
           - g++
         state: present
-        update_cache: yes
+        update_cache: true
+      failed_when:
+        - not ansible_check_mode
 
-    - name: Clone Fastfetch repository
-      git:
-        repo: https://github.com/LinusDierheimer/Fastfetch.git
-        dest: /opt/Fastfetch
+    - name: (Fastfetch) Clone repository
+      ansible.builtin.git:
+        repo: https://github.com/fastfetch-cli/fastfetch.git
+        dest: /tmp/Fastfetch
         version: master
 
-    - name: Build Fastfetch
-      command: |
-        cd /opt/Fastfetch &&
-        meson build &&
-        ninja -C build install
-      args:
-        creates: /usr/local/bin/fastfetch
-
-    - name: Clean up Fastfetch source
-      file:
-        path: /opt/Fastfetch
-        state: absent
-        when: not fastfetch_installed.stat.exists
-
-    - name: Check if Fastfetch is installed
-      stat:
+    - name: (Fastfetch) Check if Fastfetch is installed
+      ansible.builtin.stat:
         path: /usr/local/bin/fastfetch
       register: fastfetch_installed
 
-    - name: Install Fastfetch if not present
-      command: |
-        cd /opt/Fastfetch &&
-        meson build &&
-        ninja -C build install
+    - name: (Fastfetch) Build and Install Fastfetch if not present
+      ansible.builtin.command: |
+        mkdir -p /tmp/Fastfetch/build &&
+        cd /tmp/Fastfetch/build &&
+        cmake .. &&
+        cmake --build . --target fastfetch --target flashfetch
+      when: not fastfetch_installed.stat.exists
+
+    - name: (Fastfetch) Clean up source
+      ansible.builtin.file:
+        path: /tmp/Fastfetch
+        state: absent
       when: not fastfetch_installed.stat.exists

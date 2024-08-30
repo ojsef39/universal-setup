@@ -1,19 +1,19 @@
 - name: Apt Packages
   tags: apt_packages
-  become: yes
+  become: true
   block:
-    - name: Update apt cache
+    - name: (Apt) Update apt cache
       ansible.builtin.apt:
         update_cache: true
 
-    - name: Upgrade Packages
+    - name: (Apt) Upgrade Packages
       ansible.builtin.apt:
         upgrade: full
       register: apt_action
       retries: 100
       until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
 
-    - name: Install SFW apt packages
+    - name: (Apt) Install SFW apt packages
       ansible.builtin.apt:
         name: "{{ apt_sfw_p_item }}"
         state: present
@@ -25,7 +25,7 @@
         - not ansible_check_mode
         - not is_ci
 
-    - name: Install NSFW apt packages
+    - name: (Apt) Install NSFW apt packages
       ansible.builtin.apt:
         name: "{{ apt_nsfw_p_item }}"
         state: present
