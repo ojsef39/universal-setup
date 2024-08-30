@@ -5,15 +5,14 @@
   block:
     - name: (Fastfetch) Install required packages
       ansible.builtin.apt:
+        update_cache: true
         name:
           - pkg-config
           - cmake
           - gcc
           - g++
         state: present
-        update_cache: true
-      failed_when:
-        - not ansible_check_mode
+      check_mode: false
 
     - name: (Fastfetch) Clone repository
       ansible.builtin.git:
