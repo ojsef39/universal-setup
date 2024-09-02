@@ -8,7 +8,8 @@ rc_block: |
 
   ## Get Setup and run it
   oj39_ansible() {
-      read -p "Enter the branch name (default: main): " branch
+      echo "Enter the branch name (default: main): "
+      read branch
       branch=${branch:-main}
 
       if [[ $1 == "--no-pkg" ]]; then
@@ -18,7 +19,6 @@ rc_block: |
 
       curl "https://raw.githubusercontent.com/ojsef39/universal-setup/${branch}/setup.sh" | bash
   }
-
 
   ## NVIM TMUX Scripts
   n() {
