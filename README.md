@@ -18,7 +18,8 @@ Coming soon…
 
 ## What will be installed?
 
--
+1. If not a work laptop set environment variable to `export OJ39_ANSIBLE_INSTALL_NSFW=true` (default is false)
+2. `curl https://raw.githubusercontent.com/ojsef39/universal-setup/main/setup.sh | bash`
 
 ## Test
 

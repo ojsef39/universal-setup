@@ -65,11 +65,11 @@ fi
 # Clone your repository into /tmp/oj39_
 git clone https://github.com/ojsef39/universal-setup.git /tmp/oj39_
 
-# Change directory to /tmp/oj39_
-cd /tmp/oj39_
+# Change directory to /tmp/oj39_/universal-setup
+cd /tmp/oj39_/universal-setup
 
 # Run your Ansible playbook
-ansible-playbook base_installation.yml
+ansible-playbook base_installation.yml -K
 
 # Change directory back to the previous location
 cd -

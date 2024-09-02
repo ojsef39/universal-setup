@@ -6,6 +6,14 @@ rc_block: |
   alias x="exit"
   bindkey -r "^j"
 
+  ## Get Setup and run it
+  oj39_ansible() {
+      read -p "Enter the branch name (default: main): " branch
+      branch=${branch:-main}
+
+      curl "https://raw.githubusercontent.com/ojsef39/universal-setup/${branch}/setup.sh" | bash
+  }
+
   ## NVIM TMUX Scripts
   n() {
       local session_name="$(basename "$PWD")"
