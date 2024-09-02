@@ -1,22 +1,14 @@
 ---
 zshrc_lines:
-  - OJ39_ANSIBLE_ACTIVE=True
-  - autoload -Uz compinit && compinit
-  - alias ls='gls --hyperlink'
-  - fastfetch
-  - tmux list-sessions
-  - alias ls="eza --icons --git --header"
-  - bindkey -r "^j"
+  - OJ39_UNIVERSAL_SETUP=True
   - eval "$(fzf --zsh)"
   - eval "$(zoxide init --cmd cd zsh)"
-  - alias x="exit"
+  - alias ls="eza --icons --git --header"
+  - export DOCKER_HOST=unix:///Users/jhofer/.orbstack/run/docker.sock
 
 zshrc_lines_nswf:
   - "#export PATH=/Applications/MEGAcmd.app/Contents/MacOS:$PATH"
   - "#source /Applications/MEGAcmd.app/Contents/MacOS/megacmd_completion.sh"
-
-remove_zshrc_lines:
-  - OJ39_TESTV
 
 rc_block_zsh: |
   # Source all .zsh files in the ~/.zsh_scripts directory
@@ -68,9 +60,3 @@ rc_block_zsh_omz: |
   # Set Spaceship ZSH as a prompt
   #autoload -U promptinit; promptinit
   #prompt spaceship
-
-  alias ys="yarn start"
-  alias ya="yarn add"
-  alias please="sudo"
-  alias run-ios="npx react-native run-ios"
-  alias sf="php ./bin/console"

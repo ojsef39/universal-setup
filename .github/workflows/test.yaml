@@ -9,6 +9,10 @@ concurrency:
   group: ${{ github.head_ref }}
   cancel-in-progress: true
 
+env:
+  OJ39_ANSIBLE_INSTALL_NSFW: ${{ matrix.nsfw }}
+  OJ39_ANSIBLE_IS_CI: true
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -32,9 +36,6 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest]
         nsfw: [true, false]
-    env:
-      OJ39_ANSIBLE_INSTALL_NSFW: ${{ matrix.nsfw }}
-      OJ39_ANSIBLE_IS_CI: true
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
@@ -59,9 +60,6 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest]
         nsfw: [true, false]
-    env:
-      OJ39_ANSIBLE_INSTALL_NSFW: ${{ matrix.nsfw }}
-      OJ39_ANSIBLE_IS_CI: true
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
