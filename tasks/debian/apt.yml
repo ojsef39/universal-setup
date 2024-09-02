@@ -9,7 +9,7 @@
 
     - name: (Apt - Prepare) Install required apt packages
       ansible.builtin.apt:
-        name: "{{ apt_required}}"
+        name: "{{ apt_required }}"
         state: present
 
     - name: (Apt) Import legacy apt keys
@@ -62,12 +62,12 @@
 
     - name: (Apt) Install SFW apt packages
       ansible.builtin.apt:
-        name: "{{ sfw_apt_packages}}"
+        name: "{{ sfw_apt_packages }}"
         state: present
 
     - name: (Apt) Install NSFW apt packages
       ansible.builtin.apt:
-        name: "{{ nsfw_apt_packages}}"
+        name: "{{ nsfw_apt_packages }}"
         state: present
       when:
         - nsfw_mode | bool
