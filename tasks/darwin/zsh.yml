@@ -10,23 +10,28 @@
           - zsh_custom | length > 0
         fail_msg: "ZSH_CUSTOM or zsh_custom is not defined use -e zsh_custom=$ZSH_CUSTOM: {{ zsh_custom }}"
 
+    - name: (ZSH) Check if OMZ repository exists
+      ansible.builtin.stat:
+        path: "~/.oh-my-zsh"
+      register: omz_repo
+
     - name: (ZSH) Clone OMZ repository
       git:
         repo: "https://github.com/ohmyzsh/ohmyzsh.git"
         dest: "~/.oh-my-zsh"
-        update: yes
+      when: not omz_repo.stat.exists
 
     - name: (ZSH) Check if spaceship-prompt repository exists
       ansible.builtin.stat:
         path: "{{ zsh_custom }}/themes/spaceship-prompt"
-      register: repo
+      register: spaceship_repo
 
     - name: (ZSH) Clone spaceship-prompt repository
       ansible.builtin.git:
         repo: "https://github.com/spaceship-prompt/spaceship-prompt.git"
         dest: "{{ zsh_custom }}/themes/spaceship-prompt"
         depth: 1
-      when: not repo.stat.exists
+      when: not spaceship_repo.stat.exists
 
     - name: (ZSH) Update spaceship-prompt repository
       ansible.builtin.git:
