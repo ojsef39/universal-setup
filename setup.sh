@@ -62,8 +62,8 @@ else
   exit 1
 fi
 
-# Clone your repository into /tmp/oj39_
-git clone https://github.com/ojsef39/universal-setup.git /tmp/oj39_
+# Clone your repository into /tmp/oj39_/universal-setup
+git clone https://github.com/ojsef39/universal-setup.git /tmp/oj39_/universal-setup
 
 # Change directory to /tmp/oj39_/universal-setup
 cd /tmp/oj39_/universal-setup
