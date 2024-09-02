@@ -76,6 +76,13 @@ while (("$#")); do
     no_pkg=true
     shift
     ;;
+  --help)
+    echo "Usage: setup.sh [OPTIONS]"
+    echo "Options:"
+    echo "  --branch BRANCH  Specify the branch to clone (default: main)"
+    echo "  --no-pkg         Skip package installation tasks"
+    exit 0
+    ;;
   *)
     echo "Error: Invalid option"
     exit 1
