@@ -90,9 +90,9 @@ git clone --branch $branch https://github.com/ojsef39/universal-setup.git /tmp/o
 cd /tmp/oj39_/universal-setup
 
 # For testing purposes, you can remove the package installation tasks
-if [ "$no_pkg" = false ]; then
+if [ "$no_pkg" = true ]; then
   rm /tmp/oj39_/universal-setup/tasks/debian/apt.yml
-  rm /tmp/oj39_/universal-setup/tasks/darwin/brew.yml
+  rm /tmp/oj39_/universal-setup/tasks/darwin/homebrew.yml
 fi
 
 # Run your Ansible playbook
