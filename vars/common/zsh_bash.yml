@@ -10,7 +10,7 @@ rc_block: |
   oj39_ansible() {
       echo "Enter the branch name (default: main): "
       read branch
-      branch=${1:-main}
+      branch=${branch:-main}
       curl "https://raw.githubusercontent.com/ojsef39/universal-setup/${branch}/setup.sh" | bash -s -- --branch "${branch}"
   }
 
