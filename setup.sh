@@ -62,11 +62,38 @@ else
   exit 1
 fi
 
+# Get flags
+branch="main"
+no_pkg=false
+
+while (("$#")); do
+  case "$1" in
+  --branch)
+    branch=$2
+    shift 2
+    ;;
+  --no-pkg)
+    no_pkg=true
+    shift
+    ;;
+  *)
+    echo "Error: Invalid option"
+    exit 1
+    ;;
+  esac
+done
+
 # Clone your repository into /tmp/oj39_/universal-setup
-git clone https://github.com/ojsef39/universal-setup.git /tmp/oj39_/universal-setup
+git clone --branch $branch https://github.com/ojsef39/universal-setup.git /tmp/oj39_/universal-setup
 
 # Change directory to /tmp/oj39_/universal-setup
 cd /tmp/oj39_/universal-setup
+
+# For testing purposes, you can remove the package installation tasks
+if [ "$no_pkg" = false ]; then
+  rm /tmp/oj39_/universal-setup/tasks/debian/apt.yml
+  rm /tmp/oj39_/universal-setup/tasks/darwin/brew.yml
+fi
 
 # Run your Ansible playbook
 ansible-playbook base_installation.yml -K
