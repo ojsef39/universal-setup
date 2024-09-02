@@ -21,24 +21,12 @@
         dest: "~/.oh-my-zsh"
       when: not omz_repo.stat.exists
 
-    - name: (ZSH) Check if spaceship-prompt repository exists
-      ansible.builtin.stat:
-        path: "{{ zsh_custom }}/themes/spaceship-prompt"
-      register: spaceship_repo
-
     - name: (ZSH) Clone spaceship-prompt repository
       ansible.builtin.git:
         repo: "https://github.com/spaceship-prompt/spaceship-prompt.git"
         dest: "{{ zsh_custom }}/themes/spaceship-prompt"
         depth: 1
-      when: not spaceship_repo.stat.exists
-
-    - name: (ZSH) Update spaceship-prompt repository
-      ansible.builtin.git:
-        repo: "https://github.com/spaceship-prompt/spaceship-prompt.git"
-        dest: "{{ zsh_custom }}/themes/spaceship-prompt"
         update: true
-      when: repo.stat.exists
 
     - name: (ZSH) Create symbolic link for spaceship theme
       ansible.builtin.file:

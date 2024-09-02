@@ -11,8 +11,14 @@ rc_block: |
       read -p "Enter the branch name (default: main): " branch
       branch=${branch:-main}
 
+      if [[ $1 == "--no-pkg" ]]; then
+          rm /tmp/oj39_/universal-setup/tasks/debian/apt.yml
+          rm /tmp/oj39_/universal-setup/tasks/darwin/brew.yml
+      fi
+
       curl "https://raw.githubusercontent.com/ojsef39/universal-setup/${branch}/setup.sh" | bash
   }
+
 
   ## NVIM TMUX Scripts
   n() {
