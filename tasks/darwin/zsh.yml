@@ -16,7 +16,7 @@
       register: omz_repo
 
     - name: (ZSH) Clone OMZ repository
-      git:
+      ansible.builtin.git:
         repo: "https://github.com/ohmyzsh/ohmyzsh.git"
         dest: "~/.oh-my-zsh"
       when: not omz_repo.stat.exists
