@@ -1,0 +1,78 @@
+#!/bin/bash
+
+# Function to install packages on macOS
+install_on_mac() {
+  # Check if Homebrew is installed
+  if ! command -v brew &>/dev/null; then
+    echo "Homebrew is not installed, installing..."
+    # Install Homebrew
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  fi
+
+  # Check if Git is installed
+  if ! command -v git &>/dev/null; then
+    echo "Git is not installed, installing..."
+    # Install Git
+    brew install git
+  fi
+
+  # Check if Ansible is installed
+  if brew list ansible &>/dev/null; then
+    echo "Ansible is installed, updating..."
+    # Update Ansible
+    brew upgrade ansible
+  else
+    echo "Ansible is not installed, installing..."
+    # Install Ansible
+    brew install ansible
+  fi
+}
+
+# Function to install packages on Debian/Ubuntu
+install_on_debian() {
+  # Update package lists
+  sudo apt-get update
+
+  # Check if Git is installed
+  if ! command -v git &>/dev/null; then
+    echo "Git is not installed, installing..."
+    # Install Git
+    sudo apt-get install git -y
+  fi
+
+  # Check if Ansible is installed
+  if dpkg -l ansible &>/dev/null; then
+    echo "Ansible is installed, updating..."
+    # Update Ansible
+    sudo apt-get install ansible -y
+  else
+    echo "Ansible is not installed, installing..."
+    # Install Ansible
+    sudo apt-get install ansible -y
+  fi
+}
+
+# Check the operating system
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  install_on_mac
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  install_on_debian
+else
+  echo "Unsupported operating system"
+  exit 1
+fi
+
+# Clone your repository into /tmp/oj39_
+git clone https://github.com/ojsef39/universal-setup.git /tmp/oj39_
+
+# Change directory to /tmp/oj39_
+cd /tmp/oj39_
+
+# Run your Ansible playbook
+ansible-playbook base_installation.yml
+
+# Change directory back to the previous location
+cd -
+
+# Remove the /tmp/oj39_ directory
+rm -rf /tmp/oj39_
