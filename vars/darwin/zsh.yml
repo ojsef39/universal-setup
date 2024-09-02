@@ -60,9 +60,3 @@ rc_block_zsh_omz: |
   # Set Spaceship ZSH as a prompt
   #autoload -U promptinit; promptinit
   #prompt spaceship
-
-  alias ys="yarn start"
-  alias ya="yarn add"
-  alias please="sudo"
-  alias run-ios="npx react-native run-ios"
-  alias sf="php ./bin/console"
