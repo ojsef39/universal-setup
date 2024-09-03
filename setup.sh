@@ -93,14 +93,14 @@ done
 # Clone your repository into /tmp/oj39/universal-setup
 git clone --branch $branch https://github.com/ojsef39/universal-setup.git /tmp/oj39/universal-setup
 
-# Change directory to /tmp/oj39/universal-setup
-cd /tmp/oj39/universal-setup
-
 # For testing purposes, you can remove the package installation tasks
 if [ "$no_pkg" = true ]; then
   rm /tmp/oj39/universal-setup/tasks/debian/apt.yml
   rm /tmp/oj39/universal-setup/tasks/darwin/homebrew.yml
 fi
+
+# Change directory to /tmp/oj39/universal-setup
+cd /tmp/oj39/universal-setup
 
 # Run your Ansible playbook
 ansible-playbook base_installation.yml -K
