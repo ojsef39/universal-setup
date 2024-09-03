@@ -39,7 +39,7 @@
 
     - name: (ZSH) Synchronize directories
       ansible.posix.synchronize:
-        src: "files/darwin/"
+        src: "files/darwin/home"
         dest: "{{ ansible_env.HOME }}/"
 
     - name: (ZSH) Remove .zshrc
