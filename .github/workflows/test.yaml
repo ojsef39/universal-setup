@@ -32,11 +32,11 @@ jobs:
     needs: lint
     runs-on: ${{ matrix.os }}
     env:
-      OJ39_ANSIBLE_INSTALL_NSFW: ${{ matrix.nsfw }}
+      OJ39_ANSIBLE_INSTALL_NSFW: ${{ matrix.nfw }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        nsfw: [true, false]
+        nfw: [true, false]
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
@@ -58,11 +58,11 @@ jobs:
     needs: test
     runs-on: ${{ matrix.os }}
     env:
-      OJ39_ANSIBLE_INSTALL_NSFW: ${{ matrix.nsfw }}
+      OJ39_ANSIBLE_INSTALL_NSFW: ${{ matrix.nfw }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        nsfw: [true, false]
+        nfw: [true, false]
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
