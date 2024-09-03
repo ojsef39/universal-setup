@@ -6,7 +6,7 @@ zshrc_lines:
   - alias ls="eza --icons --git --header"
   - export DOCKER_HOST=unix:///Users/jhofer/.orbstack/run/docker.sock
 
-zshrc_lines_nswf:
+zshrc_lines_nfw:
   - "#export PATH=/Applications/MEGAcmd.app/Contents/MacOS:$PATH"
   - "#source /Applications/MEGAcmd.app/Contents/MacOS/megacmd_completion.sh"
 

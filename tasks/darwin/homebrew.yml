@@ -2,40 +2,40 @@
 - name: Brew packages
   tags: brew_packages
   block:
-    - name: Install SFW Brew packages
+    - name: Install Brew packages
       community.general.homebrew:
-        name: "{{ b_sfw_p_item }}"
+        name: "{{ b_p_item }}"
         state: present
-      loop: "{{ sfw_brew_packages }}"
+      loop: "{{ brew_packages }}"
       loop_control:
-        loop_var: b_sfw_p_item
-        label: "{{ b_sfw_p_item }}"
+        loop_var: b_p_item
+        label: "{{ b_p_item }}"
 
-    - name: Install NSFW Brew packages
+    - name: Install Not-for-Work Brew packages
       community.general.homebrew:
-        name: "{{ b_nsfw_p_item }}"
+        name: "{{ b_nfw_p_item }}"
         state: present
-      loop: "{{ nsfw_brew_packages }}"
+      loop: "{{ nfw_brew_packages }}"
       loop_control:
-        loop_var: b_nsfw_p_item
-        label: "{{ b_nsfw_p_item }}"
-      when: nsfw_mode | bool
+        loop_var: b_nfw_p_item
+        label: "{{ b_nfw_p_item }}"
+      when: work_mode | bool
 
-    - name: Install SFW Brew casks
+    - name: Install Brew casks
       community.general.homebrew:
-        name: "{{ b_sfw_c_item }}"
+        name: "{{ b_c_item }}"
         state: present
-      loop: "{{ sfw_brew_casks }}"
+      loop: "{{ brew_casks }}"
       loop_control:
-        loop_var: b_sfw_c_item
-        label: "{{ b_sfw_c_item }}"
+        loop_var: b_c_item
+        label: "{{ b_c_item }}"
 
-    - name: Install NSFW Brew casks
+    - name: Install Not-for-Work Brew casks
       community.general.homebrew:
-        name: "{{ b_nsfw_c_item }}"
+        name: "{{ b_nfw_c_item }}"
         state: present
-      loop: "{{ nsfw_brew_casks }}"
+      loop: "{{ nfw_brew_casks }}"
       loop_control:
-        loop_var: b_nsfw_c_item
-        label: "{{ b_nsfw_c_item }}"
-      when: nsfw_mode | bool
+        loop_var: b_nfw_c_item
+        label: "{{ b_nfw_c_item }}"
+      when: work_mode | bool

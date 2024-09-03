@@ -60,18 +60,18 @@
       retries: 100
       until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
 
-    - name: (Apt) Install SFW apt packages
+    - name: (Apt) Install apt packages
       ansible.builtin.apt:
-        name: "{{ sfw_apt_packages }}"
+        name: "{{ apt_packages }}"
         state: present
 
-    - name: (Apt) Install NSFW apt packages
+    - name: (Apt) Install Not-for-Work apt packages
       ansible.builtin.apt:
-        name: "{{ nsfw_apt_packages }}"
+        name: "{{ nfw_apt_packages }}"
         state: present
       when:
-        - nsfw_mode | bool
-        - nsfw_apt_packages not None
+        - work_mode | bool
+        - nfw_apt_packages not None
 
     - name: (Apt) Cleanup
       ansible.builtin.apt:

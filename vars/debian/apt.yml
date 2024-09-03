@@ -1,11 +1,11 @@
-sfw_apt_packages:
+apt_packages:
   - fastfetch
   - fzf
   - neovim
   - software-properties-common
   - tmux
 
-nsfw_apt_packages:
+nfw_apt_packages:
   -
 
 repos:

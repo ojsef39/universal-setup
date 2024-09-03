@@ -5,7 +5,7 @@
     supported_os:
       - Darwin # macOS
       - Debian # Ubuntu, Debian
-    nsfw_mode: "{{ lookup('env', 'OJ39_ANSIBLE_INSTALL_NSFW') | default(false) | bool }}"
+    work_mode: "{{ lookup('env', 'OJ39_ANSIBLE_NOT_WORK') | default(false) | bool }}"
     is_ci: "{{ lookup('env', 'OJ39_ANSIBLE_IS_CI') | default(false) | bool }}"
 
   tasks:
@@ -14,9 +14,9 @@
         that: ansible_facts['os_family'] in supported_os
         fail_msg: "Unsupported OS: {{ ansible_facts['os_family'] }}"
 
-    - name: (Setup) Output NSFW Mode
+    - name: (Setup) Output Not-for-Work Mode
       ansible.builtin.debug:
-        var: nsfw_mode
+        var: work_mode
 
     - name: (Setup) Output CI Mode
       ansible.builtin.debug:

@@ -1,5 +1,5 @@
 ---
-sfw_brew_packages:
+brew_packages:
   - act
   - btop
   - ca-certificates
@@ -31,14 +31,14 @@ sfw_brew_packages:
   - zoxide
   - zsh-async
 
-nsfw_brew_packages:
+nfw_brew_packages:
   # - docx2pdf
   - hwatch
   - retry
   - speedtest-cli
   - unbound
 
-sfw_brew_casks:
+brew_casks:
   - iTerm2
   - OrbStack
   - 1password-cli
@@ -46,11 +46,11 @@ sfw_brew_casks:
   - neovide
   - stats
 
-nsfw_brew_casks:
+nfw_brew_casks:
   - brooklyn
   - dockdoor
   - imageoptim
   - shortcat
   - whisky
-  - NotchNook # TODO: Move to SFW
-  - DockDoor # TODO: Move to SFW
+  - NotchNook # TODO: Move to FW
+  - DockDoor # TODO: Move to FW
