@@ -14,5 +14,6 @@
 
     - name: (iTerm2) Synchronize iTerm2 configuration
       ansible.posix.synchronize:
+        src: "{{ '/tmp/oj39/universal-setup/files/darwin/iterm2/com.googlecode.iterm2.plist' if pwd.stdout == '/tmp/oj39/universal-setup-work-extension' else 'files/darwin/iterm2/com.googlecode.iterm2.plist' }}"
         src: "files/darwin/iterm2/com.googlecode.iterm2.plist"
         dest: "~/Library/Preferences/com.googlecode.iterm2.plist"
