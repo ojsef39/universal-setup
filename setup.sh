@@ -90,16 +90,16 @@ while (("$#")); do
   esac
 done
 
-# Clone your repository into /tmp/oj39_/universal-setup
-git clone --branch $branch https://github.com/ojsef39/universal-setup.git /tmp/oj39_/universal-setup
+# Clone your repository into /tmp/oj39/universal-setup
+git clone --branch $branch https://github.com/ojsef39/universal-setup.git /tmp/oj39/universal-setup
 
-# Change directory to /tmp/oj39_/universal-setup
-cd /tmp/oj39_/universal-setup
+# Change directory to /tmp/oj39/universal-setup
+cd /tmp/oj39/universal-setup
 
 # For testing purposes, you can remove the package installation tasks
 if [ "$no_pkg" = true ]; then
-  rm /tmp/oj39_/universal-setup/tasks/debian/apt.yml
-  rm /tmp/oj39_/universal-setup/tasks/darwin/homebrew.yml
+  rm /tmp/oj39/universal-setup/tasks/debian/apt.yml
+  rm /tmp/oj39/universal-setup/tasks/darwin/homebrew.yml
 fi
 
 # Run your Ansible playbook
@@ -108,5 +108,5 @@ ansible-playbook base_installation.yml -K
 # Change directory back to the previous location
 cd -
 
-# Remove the /tmp/oj39_ directory
-rm -rf /tmp/oj39_
+# Remove the /tmp/oj39 directory
+rm -rf /tmp/oj39
