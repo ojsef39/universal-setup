@@ -32,7 +32,7 @@ jobs:
     needs: lint
     runs-on: ${{ matrix.os }}
     env:
-      OJ39_ANSIBLE_INSTALL_NSFW: ${{ matrix.nfw }}
+      OJ39_ANSIBLE_NOT_WORK: ${{ matrix.nfw }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
@@ -58,7 +58,7 @@ jobs:
     needs: test
     runs-on: ${{ matrix.os }}
     env:
-      OJ39_ANSIBLE_INSTALL_NSFW: ${{ matrix.nfw }}
+      OJ39_ANSIBLE_NOT_WORK: ${{ matrix.nfw }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
