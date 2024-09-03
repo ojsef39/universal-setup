@@ -3,9 +3,13 @@
   vars:
     zsh_custom: "{{ lookup('env', 'ZSH_CUSTOM') }}"
   block:
+    - name: (iTerm2) Get current working directory
+      ansible.posix.command: pwd
+      register: pwd
+
     - name: (iTerm2) Synchronize font files
       ansible.posix.synchronize:
-        src: "files/common/fonts/"
+        src: "{{ '/tmp/oj39_/universal-setup/files/common/fonts/' if pwd.stdout == '/tmp/oj39_/universal-setup-work-extension' else 'files/common/fonts/' }}"
         dest: "~/Library/Fonts/"
 
     - name: (iTerm2) Synchronize iTerm2 configuration
