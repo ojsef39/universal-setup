@@ -14,12 +14,12 @@ Ansible playbook to setup my Mac and soon Ubuntu machines
 
 ### One-line setup
 
-Coming soon…
+1. If not a work laptop set environment variable to `export OJ39_ANSIBLE_NOT_WORK=true` (default is false)
+2. `curl https://raw.githubusercontent.com/ojsef39/universal-setup/main/setup.sh | bash`
 
 ## What will be installed?
 
-1. If not a work laptop set environment variable to `export OJ39_ANSIBLE_NOT_WORK=true` (default is false)
-2. `curl https://raw.githubusercontent.com/ojsef39/universal-setup/main/setup.sh | bash`
+Coming soon…
 
 ## Test
 
