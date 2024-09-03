@@ -4,7 +4,7 @@
     zsh_custom: "{{ lookup('env', 'ZSH_CUSTOM') }}"
   block:
     - name: (iTerm2) Get current working directory
-      ansible.posix.command: pwd
+      ansible.builtin.command: pwd
       register: pwd
 
     - name: (iTerm2) Synchronize font files
