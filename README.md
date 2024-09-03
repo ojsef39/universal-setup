@@ -32,3 +32,6 @@ Test for all platforms are done in the pipelines, but you can test locally with 
   - [x] Remove brew install from playbook
 - [ ] Add this for dock setup: <https://github.com/geerlingguy/mac-dev-playbook/blob/master/default.config.yml#L6-L16>
 - [ ] add to readme how to include this in a another (e.g. work laptop setup playbook)
+- [] Sync script
+  - [] .config stuff
+  - [] plists (only iterm atm)
