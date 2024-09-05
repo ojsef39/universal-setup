@@ -1,6 +1,7 @@
 ---
 brew_packages:
   - act
+  - ansible-lint
   - btop
   - ca-certificates
   - coreutils
@@ -28,6 +29,7 @@ brew_packages:
   - vault
   - wget
   - whois
+  - yamllint
   - zoxide
   - zsh-async
 
