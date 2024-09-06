@@ -16,7 +16,7 @@ rc_block: |
 
   ## NVIM TMUX Scripts
   n() {
-      local session_name="$(basename "$PWD")"
+      local session_name=$(echo "$PWD" | rev | cut -d'/' -f1-5 | rev)
       if [ -z "$TMUX" ]; then
           if tmux has-session -t "$session_name" 2>/dev/null; then
               tmux attach-session -t "$session_name"
@@ -31,7 +31,7 @@ rc_block: |
   compdef _files n
 
   t() {
-      local session_name="$(basename "$PWD")"
+      local session_name=$(echo "$PWD" | rev | cut -d'/' -f1-5 | rev)
       if [ -z "$TMUX" ]; then
           if tmux has-session -t "$session_name" 2>/dev/null; then
               tmux attach-session -t "$session_name"
