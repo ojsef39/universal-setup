@@ -47,6 +47,7 @@ brew_casks:
   - iTerm2
   - mac-mouse-fix
   - neovide
+  - scroll-reverser
   - stats
 
 pers_brew_casks:
