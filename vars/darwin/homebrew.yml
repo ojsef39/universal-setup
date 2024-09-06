@@ -41,10 +41,11 @@ pers_brew_packages:
   - unbound
 
 brew_casks:
-  - iTerm2
-  - OrbStack
   - 1password-cli
+  - OrbStack
   - caffeine
+  - iTerm2
+  - mac-mouse-fix
   - neovide
   - stats
 

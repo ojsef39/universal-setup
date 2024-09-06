@@ -35,3 +35,4 @@ Test for all platforms are done in the pipelines, but you can test locally with 
 - [ ] Sync script to keep the files here up to date
   - [ ] .config stuff
   - [ ] plists (only iterm atm)
+- [ ] Add Magic Switch(.app)
