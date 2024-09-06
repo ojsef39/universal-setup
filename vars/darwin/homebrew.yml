@@ -33,7 +33,7 @@ brew_packages:
   - zoxide
   - zsh-async
 
-nfw_brew_packages:
+pers_brew_packages:
   # - docx2pdf
   - hwatch
   - retry
@@ -48,7 +48,7 @@ brew_casks:
   - neovide
   - stats
 
-nfw_brew_casks:
+pers_brew_casks:
   - brooklyn
   - dockdoor
   - imageoptim

@@ -5,8 +5,8 @@ apt_packages:
   - software-properties-common
   - tmux
 
-nfw_apt_packages:
-  -
+pers_apt_packages:
+  - speedtest-cli
 
 repos:
   fastfetch:

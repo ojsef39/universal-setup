@@ -9,12 +9,12 @@ Ansible playbook to setup my Mac and soon Ubuntu machines
 1. Install [brew](https://brew.sh/)
 2. `brew install python3 ansible git`
 3. Clone this repo
-4. If not a work laptop set environment variable `export OJ39_ANSIBLE_NOT_WORK=true` (default is false)
+4. If not a work laptop set environment variable `export OJ39_ANSIBLE_MODE=personal` (default is work)
 5. `ansible-playbook base_installation.yml -K`
 
 ### One-line setup
 
-1. If not a work laptop set environment variable to `export OJ39_ANSIBLE_NOT_WORK=true` (default is false)
+1. If not a work laptop set environment variable to export `OJ39_ANSIBLE_MODE=personal` (default is work)
 2. `curl setup.jhofer.de | bash` or `curl https://raw.githubusercontent.com/ojsef39/universal-setup/main/setup.sh | bash`
 
 ## What will be installed?
@@ -24,7 +24,7 @@ Coming soon…
 ## Test
 
 Test for all platforms are done in the pipelines, but you can test locally with act:
-`act --matrix nfw:true --matrix os:ubuntu-latest`
+`act --matrix mode:true --matrix os:ubuntu-latest`
 
 ## TODOs
 

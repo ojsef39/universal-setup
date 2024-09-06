@@ -65,13 +65,11 @@
         name: "{{ apt_packages }}"
         state: present
 
-    - name: (Apt) Install Not-for-Work apt packages
+    - name: (Apt) Install personal apt packages
       ansible.builtin.apt:
-        name: "{{ nfw_apt_packages }}"
+        name: "{{ pers_apt_packages }}"
         state: present
-      when:
-        - work_mode | bool
-        - nfw_apt_packages not None
+      when: mode == 'personal'
 
     - name: (Apt) Cleanup
       ansible.builtin.apt:

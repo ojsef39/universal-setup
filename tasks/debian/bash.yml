@@ -1,39 +1,41 @@
 - name: Setup Bash
   tags: bash
   block:
-    - name: Remove .bashrc
+    - name: (Bash) Remove .bashrc
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/.bashrc"
         state: absent
-      when: ansible_os_family == "Debian"
 
-    - name: Create .bashrc
+    - name: (Bash) Create .bashrc
       ansible.legacy.file:
         path: "{{ ansible_env.HOME }}/.bashrc"
         state: touch
         mode: "0644"
-      when: ansible_os_family == "Debian"
 
-    - name: Add lines to .bashrc
+    - name: (Bash) Add lines to .bashrc
       ansible.builtin.lineinfile:
         path: "{{ ansible_env.HOME }}/.bashrc"
         line: "{{ bashrc_lines_item }}"
       loop: "{{ bashrc_lines }}"
       loop_control:
         loop_var: bashrc_lines_item
-      when: ansible_os_family == "Debian"
 
-    - name: Add script block to .bashrc
+    - name: (Bash) Add personal ENV to .bashrc
+      ansible.builtin.lineinfile:
+        path: "{{ ansible_env.HOME }}/.bashrc"
+        line: "export OJ39_ANSIBLE_MODE=personal"
+      when: mode == 'personal'
+
+    - name: (Bash) Add script block to .bashrc
       ansible.builtin.blockinfile:
         path: "{{ ansible_env.HOME }}/.bashrc"
         block: "{{ rc_block }}"
         marker: "# {mark} ANSIBLE MANAGED BLOCK - RC BLOCK"
-      when: ansible_os_family == "Debian"
 
     ## CI DEBUG
-    - name: Show contents of .bashrc in CI
+    - name: (Bash) Show contents of .bashrc in CI
       ansible.builtin.command: cat "{{ ansible_env.HOME }}/.bashrc"
       register: bashrc_contents
       ignore_errors: true
       changed_when: false
-      when: ansible_os_family == "Debian" and is_ci | bool
+      when: is_ci | bool

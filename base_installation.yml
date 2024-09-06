@@ -5,8 +5,8 @@
     supported_os:
       - Darwin # macOS
       - Debian # Ubuntu, Debian
-    work_mode: "{{ lookup('env', 'OJ39_ANSIBLE_NOT_WORK') | default(false) | bool }}"
-    is_ci: "{{ lookup('env', 'OJ39_ANSIBLE_IS_CI') | default(false) | bool }}"
+    mode: "{{ lookup('env', 'OJ39_ANSIBLE_MODE') | default('work', true) }}"
+    is_ci: "{{ lookup('env', 'OJ39_ANSIBLE_IS_CI') | default('false') | bool }}"
 
   tasks:
     - name: (Setup) Check if OS is supported
@@ -14,9 +14,15 @@
         that: ansible_facts['os_family'] in supported_os
         fail_msg: "Unsupported OS: {{ ansible_facts['os_family'] }}"
 
-    - name: (Setup) Output Not-for-Work Mode
+    - name: (Setup) Check mode
+      ansible.builtin.assert:
+        that:
+          - mode in ['personal', 'work']
+        fail_msg: "Error: mode must be either 'personal' or 'work'"
+
+    - name: (Setup) Output mode
       ansible.builtin.debug:
-        var: work_mode
+        var: mode
 
     - name: (Setup) Output CI Mode
       ansible.builtin.debug:

@@ -32,11 +32,11 @@ jobs:
     needs: lint
     runs-on: ${{ matrix.os }}
     env:
-      OJ39_ANSIBLE_NOT_WORK: ${{ matrix.nfw }}
+      OJ39_ANSIBLE_MODE: ${{ matrix.mode }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        nfw: [true, false]
+        mode: ["personal", "work"]
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
@@ -58,11 +58,11 @@ jobs:
     needs: test
     runs-on: ${{ matrix.os }}
     env:
-      OJ39_ANSIBLE_NOT_WORK: ${{ matrix.nfw }}
+      OJ39_ANSIBLE_MODE: ${{ matrix.mode }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        nfw: [true, false]
+        mode: ["personal", "work"]
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python

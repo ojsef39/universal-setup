@@ -67,20 +67,20 @@
       loop_control:
         loop_var: zshrc_lines_item
 
-    - name: (ZSH) Add Not-for-Work lines to .zshrc
+    - name: (ZSH) Add personal lines to .zshrc
       ansible.builtin.lineinfile:
         path: "{{ ansible_env.HOME }}/.zshrc"
-        line: "{{ zshrc_lines_nfw_item }}"
-      loop: "{{ zshrc_lines_nfw }}"
+        line: "{{ zshrc_lines_pers_item }}"
+      loop: "{{ zshrc_lines_pers }}"
       loop_control:
-        loop_var: zshrc_lines_nfw_item
-      when: work_mode | bool
+        loop_var: zshrc_lines_pers_item
+      when: mode == 'personal'
 
-    - name: (ZSH) Add Not-for-Work ENV to .zshrc
+    - name: (ZSH) Add personal ENV to .zshrc
       ansible.builtin.lineinfile:
         path: "{{ ansible_env.HOME }}/.zshrc"
-        line: "export OJ39_ANSIBLE_NOT_WORK=true"
-      when: work_mode | bool
+        line: "export OJ39_ANSIBLE_MODE=personal"
+      when: mode == 'personal'
 
     - name: (ZSH) Add script block to .zshrc
       ansible.builtin.blockinfile:
