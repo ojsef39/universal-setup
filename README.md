@@ -24,7 +24,7 @@ Coming soon…
 ## Test
 
 Test for all platforms are done in the pipelines, but you can test locally with act:
-`act --matrix mode:true --matrix os:ubuntu-latest`
+`act --matrix mode:personal --matrix os:ubuntu-latest`
 
 ## TODOs
 
