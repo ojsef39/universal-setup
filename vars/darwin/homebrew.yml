@@ -48,6 +48,7 @@ brew_casks:
   - mac-mouse-fix
   - neovide
   - stats
+  - setapp
 
 pers_brew_casks:
   - brooklyn
