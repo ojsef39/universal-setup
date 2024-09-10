@@ -16,12 +16,13 @@ rc_block: |
 
   ## NVIM TMUX Scripts
   n() {
-      local session_name=$(echo "$PWD" | rev | cut -d'/' -f1-5 | rev)
+      local session_name=$(echo "$PWD" | rev | cut -d'/' -f1-5 | rev | tr '/' '-' | tr '.' '-' | tr ':' '-')
       if [ -z "$TMUX" ]; then
           if tmux has-session -t "$session_name" 2>/dev/null; then
               tmux attach-session -t "$session_name"
           else
-              tmux new-session -s "$session_name" "nvim $*"
+              tmux new-session -d -s "$session_name" "nvim $*"
+              tmux attach-session -t "$session_name"
           fi
       else
           nvim "$@"
@@ -31,7 +32,7 @@ rc_block: |
   compdef _files n
 
   t() {
-      local session_name=$(echo "$PWD" | rev | cut -d'/' -f1-5 | rev)
+      local session_name=$(echo "$PWD" | rev | cut -d'/' -f1-5 | rev | tr '/' '-' | tr '.' '-' | tr ':' '-')
       if [ -z "$TMUX" ]; then
           if tmux has-session -t "$session_name" 2>/dev/null; then
               tmux attach-session -t "$session_name"
