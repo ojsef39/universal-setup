@@ -43,12 +43,13 @@ pers_brew_packages:
 brew_casks:
   - 1password-cli
   - OrbStack
+  - Poe
   - caffeine
   - iTerm2
   - mac-mouse-fix
   - neovide
-  - stats
   - setapp
+  - stats
 
 pers_brew_casks:
   - brooklyn
