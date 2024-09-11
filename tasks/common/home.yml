@@ -29,7 +29,7 @@
     - name: (Sync Home) Create symbolic links for all files
       ansible.builtin.file:
         src: "{{ f_l_item.path }}"
-        dest: "{{ playbook_dir }}/{{ ansible_env.HOME }}/{{ f_l_item.path | regex_replace('^files/' ~ ansible_facts['os_family'] | lower ~ '/home/', '') }}"
+        dest: "{{ playbook_dir }}/{{ f_l_item.path | regex_replace('^files/' ~ ansible_facts['os_family'] | lower ~ '/home/', '') }}"
         state: link
         force: true
         follow: false
