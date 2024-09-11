@@ -2,23 +2,30 @@
 - name: Sync Home
   tags: sync_home
   block:
-    - name: (Sync Home) Find all files and directories
-      ansible.builtin.find:
-        paths: "{{ '/tmp/oj39/universal-setup/files/' ~ ansible_facts['os_family'] | lower ~ '/home' if pwd.stdout is match('^/tmp/.*') else 'files/' ~ ansible_facts['os_family'] | lower ~ '/home' }}"
-        recurse: true
-      register: find_result
+    - name: (Sync Home) Find all directories
+      ansible.builtin.shell:
+        cmd: >
+          find {{ '/tmp/oj39/universal-setup/files/' ~ ansible_facts['os_family'] | lower ~ '/home' if pwd.stdout is match('^/tmp/.*') else 'files/' ~ ansible_facts['os_family'] | lower ~ '/home' }}
+          -type d -printf '%P\n'
+      register: find_dirs
       changed_when: false
 
-    - name: (Sync Home) Create directories and symlinks
-      ansible.builtin.file:
-        src: "{{ item.path }}"
-        dest: "{{ ansible_env.HOME }}/{{ item.path | regex_replace('^' ~ ('/tmp/oj39/universal-setup/files/' ~ ansible_facts['os_family'] | lower ~ '/home/' if pwd.stdout is match('^/tmp/.*') else 'files/' ~ ansible_facts['os_family'] | lower ~ '/home/'), '') }}"
-        state: "{{ 'directory' if item.isdir else 'link' }}"
-        force: "{{ not item.isdir }}"
-      loop: "{{ find_result.files }}"
-      loop_control:
-        label: "{{ item.path }}"
+    - name: (Sync Home) Create directories
+      ansible.builtin.command:
+        cmd: "mkdir -p {{ ansible_env.HOME }}/{{ item }}"
+      loop: "{{ find_dirs.stdout_lines }}"
+      when:
+        - pwd.stdout is not match("^/tmp/.*")
+        - item != ''
+      changed_when: false
+
+    - name: (Sync Home) Create symlinks
+      ansible.builtin.shell:
+        cmd: >
+          find {{ '/tmp/oj39/universal-setup/files/' ~ ansible_facts['os_family'] | lower ~ '/home' if pwd.stdout is match('^/tmp/.*') else 'files/' ~ ansible_facts['os_family'] | lower ~ '/home' }}
+          -type f -print0 | xargs -0 -I {} ln -sf {} {{ ansible_env.HOME }}/{/.}
       when: pwd.stdout is not match("^/tmp/.*")
+      changed_when: false
 
     - name: (Sync Home) Synchronize files
       ansible.posix.synchronize:
