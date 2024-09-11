@@ -3,30 +3,21 @@
   tags: sync_home
   block:
     - name: (Sync Home) Find all files and directories
-      ansible.builtin.shell:
-        cmd: >
-          find {{ '/tmp/oj39/universal-setup/files/' ~ ansible_facts['os_family'] | lower ~ '/home' if pwd.stdout is match('^/tmp/.*') else 'files/' ~ ansible_facts['os_family'] | lower ~ '/home' }}
-          -type d -o -type f | sed 's/^/"/;s/$/"/'
+      ansible.builtin.find:
+        paths: "{{ '/tmp/oj39/universal-setup/files/' ~ ansible_facts['os_family'] | lower ~ '/home' if pwd.stdout is match('^/tmp/.*') else 'files/' ~ ansible_facts['os_family'] | lower ~ '/home' }}"
+        recurse: true
       register: find_result
       changed_when: false
 
-    - name: (Sync Home) Create symlinks
-      ansible.builtin.shell:
-        cmd: |
-          while read -r item; do
-            item=$(echo "$item" | sed 's/^"//;s/"$//')
-            rel_path="${item#{{ '/tmp/oj39/universal-setup/files/' ~ ansible_facts['os_family'] | lower ~ '/home/' if pwd.stdout is match('^/tmp/.*') else 'files/' ~ ansible_facts['os_family'] | lower ~ '/home/' }}}"
-            target_path="{{ ansible_env.HOME }}/${rel_path}"
-            if [ -d "$item" ]; then
-              mkdir -p "$target_path"
-            else
-              ln -sf "$item" "$target_path"
-            fi
-          done <<EOF
-          {{ find_result.stdout_lines | join('\n') }}
-          EOF
-      args:
-        executable: /bin/bash
+    - name: (Sync Home) Create directories and symlinks
+      ansible.builtin.file:
+        src: "{{ item.path }}"
+        dest: "{{ ansible_env.HOME }}/{{ item.path | regex_replace('^' ~ ('/tmp/oj39/universal-setup/files/' ~ ansible_facts['os_family'] | lower ~ '/home/' if pwd.stdout is match('^/tmp/.*') else 'files/' ~ ansible_facts['os_family'] | lower ~ '/home/'), '') }}"
+        state: "{{ 'directory' if item.isdir else 'link' }}"
+        force: "{{ not item.isdir }}"
+      loop: "{{ find_result.files }}"
+      loop_control:
+        label: "{{ item.path }}"
       when: pwd.stdout is not match("^/tmp/.*")
 
     - name: (Sync Home) Synchronize files
