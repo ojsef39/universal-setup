@@ -2,41 +2,28 @@
 - name: Sync Home
   tags: sync_home
   block:
-    - name: (Sync Home) Find all files in the source directory
-      ansible.builtin.find:
-        paths: "{{ '/tmp/oj39/universal-setup/files/' ~ ansible_facts['os_family'] | lower ~ '/home' if pwd.stdout is match('^/tmp/.*') else 'files/' ~ ansible_facts['os_family'] | lower ~ '/home' }}"
-        recurse: true
-        file_type: file
-      register: files_to_link
+    - name: (Sync Home) Find all files and directories
+      ansible.builtin.command:
+        cmd: >
+          find {{ '/tmp/oj39/universal-setup/files/' ~ ansible_facts['os_family'] | lower ~ '/home' if pwd.stdout is match('^/tmp/.*') else 'files/' ~ ansible_facts['os_family'] | lower ~ '/home' }}
+          -type d -o -type f -print0
+      register: find_result
+      changed_when: false
 
-    - name: (Sync Home) Find all directories in the source directory
-      ansible.builtin.find:
-        paths: "{{ '/tmp/oj39/universal-setup/files/' ~ ansible_facts['os_family'] | lower ~ '/home' if pwd.stdout is match('^/tmp/.*') else 'files/' ~ ansible_facts['os_family'] | lower ~ '/home' }}"
-        recurse: true
-        file_type: directory
-      register: dirs_to_create
-
-    - name: (Sync Home) Create necessary directories
-      ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/{{ d_item.path | regex_replace('^files/' ~ ansible_facts['os_family'] | lower ~ '/home/', '') }}"
-        state: directory
-      loop: "{{ dirs_to_create.files }}"
-      loop_control:
-        loop_var: d_item
-        label: "{{ ansible_env.HOME }}/{{ d_item.path | regex_replace('^files/' ~ ansible_facts['os_family'] | lower ~ '/home/', '') }}"
-      when: pwd.stdout is not match("^/tmp/.*")
-
-    - name: (Sync Home) Create symbolic links for all files
-      ansible.builtin.file:
-        src: "{{ f_l_item.path }}"
-        dest: "{{ playbook_dir }}/{{ f_l_item.path | regex_replace('^files/' ~ ansible_facts['os_family'] | lower ~ '/home/', '') }}"
-        state: link
-        force: true
-        follow: false
-      loop: "{{ files_to_link.files }}"
-      loop_control:
-        loop_var: f_l_item
-        label: "{{ ansible_env.HOME }}/{{ f_l_item.path | regex_replace('^files/' ~ ansible_facts['os_family'] | lower ~ '/home/', '') }}"
+    - name: (Sync Home) Create symlinks
+      ansible.builtin.shell:
+        cmd: |
+          while IFS= read -r -d '' item; do
+            rel_path="${item#{{ '/tmp/oj39/universal-setup/files/' ~ ansible_facts['os_family'] | lower ~ '/home/' if pwd.stdout is match('^/tmp/.*') else 'files/' ~ ansible_facts['os_family'] | lower ~ '/home/' }}}"
+            target_path="{{ ansible_env.HOME }}/${rel_path}"
+            if [ -d "$item" ]; then
+              mkdir -p "$target_path"
+            else
+              ln -sf "$item" "$target_path"
+            fi
+          done < <(echo -n '{{ find_result.stdout }}')
+      args:
+        executable: /bin/bash
       when: pwd.stdout is not match("^/tmp/.*")
 
     - name: (Sync Home) Synchronize files
