@@ -1,0 +1,6 @@
+exclude_paths:
+  - files/
+  - tasks/darwin/iterm2.yml
+
+skip_list:
+  - idempotency

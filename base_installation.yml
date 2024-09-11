@@ -1,0 +1,57 @@
+---
+- name: Setup local environment
+  hosts: localhost
+  vars:
+    supported_os:
+      - Darwin # macOS
+      - Debian # Ubuntu, Debian
+    mode: "{{ lookup('env', 'OJ39_ANSIBLE_MODE') | default('work', true) }}"
+    is_ci: "{{ lookup('env', 'OJ39_ANSIBLE_IS_CI') | default('false') | bool }}"
+
+  tasks:
+    - name: (Setup) Check if OS is supported
+      ansible.builtin.assert:
+        that: ansible_facts['os_family'] in supported_os
+        fail_msg: "Unsupported OS: {{ ansible_facts['os_family'] }}"
+
+    - name: (Setup) Check mode
+      ansible.builtin.assert:
+        that:
+          - mode in ['personal', 'work']
+        fail_msg: "Error: mode must be either 'personal' or 'work'"
+
+    - name: (Setup) Output mode
+      ansible.builtin.debug:
+        var: mode
+
+    - name: (Setup) Output CI Mode
+      ansible.builtin.debug:
+        var: is_ci
+
+    - name: (Setup) Include OS-specific vars
+      ansible.builtin.include_vars: "{{ item }}"
+      with_fileglob:
+        - "vars/{{ ansible_facts['os_family'] | lower }}/*.yml"
+
+    - name: (Setup) Include common vars
+      ansible.builtin.include_vars: "{{ item }}"
+      with_fileglob:
+        - "vars/common/*.yml"
+
+    - name: (Setup) Include OS-specific tasks
+      ansible.builtin.include_tasks: "{{ item }}"
+      with_fileglob:
+        - "tasks/{{ ansible_facts['os_family'] | lower }}/*.yml"
+
+    - name: (Setup) Include common tasks
+      ansible.builtin.include_tasks: "{{ item }}"
+      with_fileglob:
+        - "tasks/common/*.yml"
+
+    - name: (Setup) Cleanup
+      ansible.builtin.file:
+        path: /tmp/oj39/
+        state: absent
+
+  # handlers:
+  #   - import_tasks: handlers/*.yml

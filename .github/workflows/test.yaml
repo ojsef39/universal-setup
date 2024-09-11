@@ -1,0 +1,79 @@
+name: Base Installation Test
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
+env:
+  OJ39_ANSIBLE_IS_CI: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible-lint
+      - name: Lint Ansible Playbook
+        run: ansible-lint
+
+  test:
+    needs: lint
+    runs-on: ${{ matrix.os }}
+    env:
+      OJ39_ANSIBLE_MODE: ${{ matrix.mode }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        mode: ["personal", "work"]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible
+      - name: Run Ansible Playbook
+        run: |
+          touch ~/.bashrc
+          touch ~/.zshrc
+          ansible-playbook base_installation.yml --syntax-check
+          ansible-playbook base_installation.yml --check
+
+  integration-test:
+    needs: test
+    runs-on: ${{ matrix.os }}
+    env:
+      OJ39_ANSIBLE_MODE: ${{ matrix.mode }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        mode: ["personal", "work"]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible
+      - name: Run Ansible Playbook
+        run: |
+          ansible-galaxy collection install community.general
+          ansible-playbook base_installation.yml

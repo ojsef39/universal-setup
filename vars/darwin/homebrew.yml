@@ -1,0 +1,61 @@
+---
+brew_packages:
+  - act
+  - ansible-lint
+  - btop
+  - ca-certificates
+  - coreutils
+  - eza
+  - fastfetch
+  - fzf
+  - gh
+  - ghq
+  - git
+  - gitlab-ci-local
+  - go
+  - gomplate
+  - helm
+  - ipcalc
+  - kubernetes-cli
+  - lazygit
+  - ncdu
+  - neovim
+  - nmap
+  - openssl@3
+  - ripgrep
+  - tmux
+  - tree
+  - tree-sitter
+  - vault
+  - wget
+  - whois
+  - yamllint
+  - zoxide
+  - zsh-async
+
+pers_brew_packages:
+  # - docx2pdf
+  - hwatch
+  - retry
+  - speedtest-cli
+  - unbound
+
+brew_casks:
+  - 1password-cli
+  - OrbStack
+  - Poe
+  - caffeine
+  - iTerm2
+  - mac-mouse-fix
+  - neovide
+  - setapp
+  - stats
+
+pers_brew_casks:
+  - brooklyn
+  - dockdoor
+  - imageoptim
+  - shortcat
+  - whisky
+  - NotchNook # TODO: Move to FW
+  - DockDoor # TODO: Move to FW
