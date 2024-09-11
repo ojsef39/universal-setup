@@ -37,11 +37,6 @@
         - not ansible_check_mode
         - not is_ci
 
-    - name: (ZSH) Synchronize directories
-      ansible.posix.synchronize:
-        src: "files/darwin/home"
-        dest: "{{ ansible_env.HOME }}/"
-
     - name: (ZSH) Remove .zshrc
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/.zshrc"
