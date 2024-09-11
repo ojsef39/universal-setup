@@ -14,7 +14,8 @@
         src: "{{ f_l_item.path }}"
         dest: "{{ ansible_env.HOME }}/{{ f_l_item.path | regex_replace('^files/' ~ ansible_facts['os_family'] ~ '/home/', '') }}"
         state: link
-        force: yes
+        force: true
+        follow: false
       loop: "{{ files_to_link.files }}"
       loop_control:
         loop_var: f_l_item
