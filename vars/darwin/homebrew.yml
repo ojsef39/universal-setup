@@ -49,6 +49,7 @@ brew_casks:
   - mac-mouse-fix
   - neovide
   - scroll-reverser
+  - setapp
   - stats
 
 pers_brew_casks:
