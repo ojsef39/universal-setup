@@ -1,4 +1,3 @@
----
 - name: Sync Home
   tags: sync_home
   block:
@@ -9,13 +8,18 @@
       register: find_result
       changed_when: false
 
+    - name: (Sync Home) Sort files and directories by depth
+      set_fact:
+        sorted_files: "{{ find_result.files | sort(attribute='path', reverse=false) }}"
+      changed_when: false
+
     - name: (Sync Home) Create directories and symlinks
       ansible.builtin.file:
         src: "{{ f_l_item.path }}"
         dest: "{{ ansible_env.HOME }}/{{ f_l_item.path | regex_replace('^' ~ ('/tmp/oj39/universal-setup/files/' ~ ansible_facts['os_family'] | lower ~ '/home/' if pwd.stdout is match('^/tmp/.*') else 'files/' ~ ansible_facts['os_family'] | lower ~ '/home/'), '') }}"
         state: "{{ 'directory' if f_l_item.isdir else 'link' }}"
         force: "{{ not f_l_item.isdir }}"
-      loop: "{{ find_result.files }}"
+      loop: "{{ sorted_files }}"
       loop_control:
         loop_var: f_l_item
         label: "{{ ansible_env.HOME }}/{{ f_l_item.path | regex_replace('^' ~ ('/tmp/oj39/universal-setup/files/' ~ ansible_facts['os_family'] | lower ~ '/home/' if pwd.stdout is match('^/tmp/.*') else 'files/' ~ ansible_facts['os_family'] | lower ~ '/home/'), '') }}"
