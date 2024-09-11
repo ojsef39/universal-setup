@@ -1,6 +1,7 @@
 ---
 - name: Brew packages
   tags: brew_packages
+  when: not ansible_check_mode
   block:
     - name: (Brew) Install Brew packages
       community.general.homebrew:

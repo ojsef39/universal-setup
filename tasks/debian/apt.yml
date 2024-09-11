@@ -1,5 +1,6 @@
 - name: Apt Packages
   tags: apt_packages
+  when: not ansible_check_mode
   become: true
   block:
     - name: (Apt - Prepare) Update apt cache

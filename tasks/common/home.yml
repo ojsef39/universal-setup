@@ -5,23 +5,20 @@
     - name: (Sync Home) Find all files in the source directory
       ansible.builtin.find:
         paths: "{{ '/tmp/oj39/universal-setup/files/' ~ ansible_facts['os_family'] ~ '/home' if pwd.stdout is match('^/tmp/.*') else 'files/' ~ ansible_facts['os_family'] ~ '/home' }}"
-        recurse: yes
+        recurse: true
         file_type: file
       register: files_to_link
 
-    - name: (Sync Home) Delete existing files
-      ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/{{ item.path | regex_replace('^files/' ~ ansible_facts['os_family'] ~ '/home/', '') }}"
-        state: absent
-      loop: "{{ files_to_link.files }}"
-      when: pwd.stdout is not match("^/tmp/.*")
-
     - name: (Sync Home) Create symbolic links for all files
       ansible.builtin.file:
-        src: "{{ item.path }}"
-        dest: "{{ ansible_env.HOME }}/{{ item.path | regex_replace('^files/' ~ ansible_facts['os_family'] ~ '/home/', '') }}"
+        src: "{{ f_l_item.path }}"
+        dest: "{{ ansible_env.HOME }}/{{ f_l_item.path | regex_replace('^files/' ~ ansible_facts['os_family'] ~ '/home/', '') }}"
         state: link
+        force: yes
       loop: "{{ files_to_link.files }}"
+      loop_control:
+        loop_var: f_l_item
+        label: "{{ f_l_item.path }}"
       when: pwd.stdout is not match("^/tmp/.*")
 
     - name: (Sync Home) Synchronize files
