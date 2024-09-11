@@ -1,3 +1,4 @@
+---
 - name: Sync Home
   tags: sync_home
   block:
@@ -8,26 +9,16 @@
       register: find_result
       changed_when: false
 
-    - name: (Sync Home) Separate directories and files
-      set_fact:
-        directories: "{{ find_result.files | selectattr('isdir', 'equalto', true) | list }}"
-        files: "{{ find_result.files | selectattr('isdir', 'equalto', false) | list }}"
-      changed_when: false
-
-    - name: (Sync Home) Create directories
+    - name: (Sync Home) Create directories and symlinks
       ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/{{ item.path | regex_replace('^' ~ ('/tmp/oj39/universal-setup/files/' ~ ansible_facts['os_family'] | lower ~ '/home/' if pwd.stdout is match('^/tmp/.*') else 'files/' ~ ansible_facts['os_family'] | lower ~ '/home/'), '') }}"
-        state: directory
-      loop: "{{ directories }}"
-      when: pwd.stdout is not match("^/tmp/.*")
-
-    - name: (Sync Home) Create symlinks
-      ansible.builtin.file:
-        src: "{{ item.path }}"
-        dest: "{{ ansible_env.HOME }}/{{ item.path | regex_replace('^' ~ ('/tmp/oj39/universal-setup/files/' ~ ansible_facts['os_family'] | lower ~ '/home/' if pwd.stdout is match('^/tmp/.*') else 'files/' ~ ansible_facts['os_family'] | lower ~ '/home/'), '') }}"
-        state: link
-        force: true
-      loop: "{{ files }}"
+        src: "{{ f_l_item.path }}"
+        dest: "{{ ansible_env.HOME }}/{{ f_l_item.path | regex_replace('^' ~ ('/tmp/oj39/universal-setup/files/' ~ ansible_facts['os_family'] | lower ~ '/home/' if pwd.stdout is match('^/tmp/.*') else 'files/' ~ ansible_facts['os_family'] | lower ~ '/home/'), '') }}"
+        state: "{{ 'directory' if f_l_item.isdir else 'link' }}"
+        force: "{{ not f_l_item.isdir }}"
+      loop: "{{ find_result.files }}"
+      loop_control:
+        loop_var: f_l_item
+        label: "{{ ansible_env.HOME }}/{{ f_l_item.path | regex_replace('^' ~ ('/tmp/oj39/universal-setup/files/' ~ ansible_facts['os_family'] | lower ~ '/home/' if pwd.stdout is match('^/tmp/.*') else 'files/' ~ ansible_facts['os_family'] | lower ~ '/home/'), '') }}"
       when: pwd.stdout is not match("^/tmp/.*")
 
     - name: (Sync Home) Synchronize files
