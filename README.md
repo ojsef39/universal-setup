@@ -37,3 +37,4 @@ Test for all platforms are done in the pipelines, but you can test locally with 
   - [ ] plists (only iterm atm)
   - [ ] maybe just have home directory as git repo ([inspiration](https://www.instagram.com/reel/C_tMXL4y-Kz/?igsh=OXZ2Z3R6ZXBidDhj)) and pull that/ open pr when changes are detected. (how split mac/linux then?)
 - [ ] Add Magic Switch(.app)
+- [ ] make the tmp folders vars (e.g. universal_tmp = /tmp/oj39/universal-setup/)
