@@ -44,6 +44,16 @@ rc_block: |
       fi
   }
 
+  ## Find git repos with changes in subfolders
+  check_repos() {
+    find . -type d -name ".git" | while read gitdir; do
+      repo_dir="$(dirname "$gitdir")"
+      if [ -n "$(git -C "$repo_dir" status --porcelain)" ]; then
+        echo "changes in ${repo_dir#./}"
+      fi
+    done
+  }
+
   ###-begin-gitlab-ci-local-completions-###
   #
   # yargs command completion script
