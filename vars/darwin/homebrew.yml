@@ -42,6 +42,7 @@ pers_brew_packages:
 
 brew_casks:
   - 1password-cli
+  - ChatGPT
   - OrbStack
   - Poe
   - caffeine
