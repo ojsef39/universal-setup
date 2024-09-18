@@ -1,6 +1,7 @@
 ---
 brew_packages:
   - act
+  - aichat
   - ansible-lint
   - btop
   - ca-certificates

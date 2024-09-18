@@ -5,6 +5,8 @@ rc_block: |
   tmux list-sessions
   alias x="exit"
   bindkey -r "^j"
+  export EDITOR=nvim
+  export PATH=$PATH:$HOME/Code/github.com/ojsef39/commit-oracle
 
   ## Get Setup and run it
   oj39_ansible() {
