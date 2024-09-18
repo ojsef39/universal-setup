@@ -16,7 +16,7 @@ return {
       scratchPad = {
         -- set to `false` to
         -- disable auto-saving
-        enabled = true,
+        enabled = false,
         -- set to `nil` to default
         -- to current working directory
         location = "~/Documents/vim-mds/",
